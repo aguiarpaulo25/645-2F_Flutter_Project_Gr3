@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/theme_service.dart';
 import 'package:provider/src/provider.dart';
 
 import 'authentication_service.dart';
@@ -45,12 +44,6 @@ class SignInPage extends StatelessWidget {
             },
             child: const Text("Sign up"),
           ),
-          ElevatedButton(
-            onPressed: () {
-              context.read<ThemeService>().toggleMode();
-            },
-            child: const Text("Dark Mode"),
-          )
         ],
       ),
     );
