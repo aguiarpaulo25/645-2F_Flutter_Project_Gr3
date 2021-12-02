@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/authentication_service.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter_project/navdrawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,18 +12,12 @@ class HomePage extends StatelessWidget {
         title: const Text("Connected t-shirt"),
       ),
       body: Center(
-        child: Column(
-          children: [
-            const Text("HOME"),
-            ElevatedButton(
-              onPressed: () {
-                context.read<AuthenticationService>().signOut();
-              },
-              child: const Text("Sign out"),
-            ),
-          ],
-        ),
+        child: Column(children: const [
+          Text("Welcome, User !",
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+        ]),
       ),
+      drawer: const NavDrawer(),
     );
   }
 }
