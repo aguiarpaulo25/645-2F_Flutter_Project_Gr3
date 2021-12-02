@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/theme_service.dart';
 import 'package:provider/src/provider.dart';
 
 import 'authentication_service.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key, required this.changeDarkMode}) : super(key: key);
-  final Function() changeDarkMode;
+class SignInPage extends StatelessWidget {
+  SignInPage({Key? key}) : super(key: key);
 
-  @override
-  State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -52,7 +47,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              widget.changeDarkMode();
+              context.read<ThemeService>().toggleMode();
             },
             child: const Text("Dark Mode"),
           )

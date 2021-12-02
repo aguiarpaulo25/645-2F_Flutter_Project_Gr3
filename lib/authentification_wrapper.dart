@@ -6,23 +6,16 @@ import 'package:provider/src/provider.dart';
 
 import 'homepage.dart';
 
-class AuthenticationWrapper extends StatefulWidget {
-  const AuthenticationWrapper({Key? key, required this.changeDarkMode}) : super(key: key);
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({Key? key}) : super(key: key);
 
-  final Function() changeDarkMode;
-
-  @override
-  _AuthenticationWrapperState createState() => _AuthenticationWrapperState();
-}
-
-class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   @override
   Widget build(BuildContext context) {
     try {
       context.watch<User>();
       return const HomePage();
     } on ProviderNullException {
-      return SignInPage(changeDarkMode: widget.changeDarkMode);
+      return SignInPage();
     }
   }
 }
