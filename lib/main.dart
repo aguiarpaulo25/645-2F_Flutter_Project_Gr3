@@ -27,7 +27,6 @@ class _MyAppState extends State<MyApp> {
       isDark = !isDark;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
