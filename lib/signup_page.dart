@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/signup_page.dart';
 import 'package:provider/src/provider.dart';
 
 import 'authentication_service.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController firstNameController = TextEditingController();
+
+  final TextEditingController lastNameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -21,12 +24,14 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void dispose() {
     super.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
   }
 
   void showMessage(message) {
-    if (message != 'Signed in') {
+    if (message != 'Registered') {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -40,6 +45,8 @@ class _SignInPageState extends State<SignInPage> {
           ],
         ),
       );
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -53,7 +60,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Create an account"),
       ),
       body: Column(
         children: [
@@ -61,6 +68,16 @@ class _SignInPageState extends State<SignInPage> {
             controller: emailController,
             decoration: const InputDecoration(
                 labelText: "Email", prefixIcon: Icon(Icons.email)),
+          ),
+          TextField(
+            controller: firstNameController,
+            decoration: const InputDecoration(
+                labelText: "First name", prefixIcon: Icon(Icons.perm_identity)),
+          ),
+          TextField(
+            controller: lastNameController,
+            decoration: const InputDecoration(
+                labelText: "Last name", prefixIcon: Icon(Icons.perm_identity)),
           ),
           TextField(
               obscureText: _obscureText,
@@ -81,31 +98,15 @@ class _SignInPageState extends State<SignInPage> {
             onPressed: () {
               context
                   .read<AuthenticationService>()
-                  .signIn(emailController.text.trim(),
+                  .signUp(
+                      emailController.text.trim(),
+                      firstNameController.text.trim(),
+                      lastNameController.text.trim(),
                       passwordController.text.trim())
                   .then((value) => showMessage(value));
             },
-            child: const Text("Sign in"),
+            child: const Text("Create"),
           ),
-          const SizedBox(height: 15.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text("Don't have an account ? "),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()),
-                  );
-                },
-                child: const Text('Register',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          )
         ],
       ),
     );
