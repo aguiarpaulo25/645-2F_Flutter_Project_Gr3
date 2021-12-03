@@ -85,15 +85,6 @@ class HomePage extends StatelessWidget {
 
               ]
           );
-          /*children: snapshot.data!.docs.getRange(0,1)(document){
-                return Card(
-                    child: ListTile(
-                      leading: const FlutterLogo(size: 200.0),
-                      title: Text(document['time'].toString()),
-                      subtitle: Text(document['humidity'].toString()+"\t\t\t"+document['frequence'].toString()+"\t\t\t"+document['temperature'].toString()),
-                    ),
-                );
-              }).toList());*/
         }
     );
   }
