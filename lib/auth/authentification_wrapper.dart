@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/signin_page.dart';
+import 'package:flutter_project/pages/connection/signin_page.dart';
 import 'package:provider/src/provider.dart';
 
-import 'pages/homepage.dart';
+import '../pages/homepage/homepage.dart';
 
 class AuthenticationWrapper extends StatelessWidget {
   const AuthenticationWrapper({Key? key}) : super(key: key);

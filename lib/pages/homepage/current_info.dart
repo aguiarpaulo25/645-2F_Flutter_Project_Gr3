@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_project/navdrawer.dart';
-import 'package:flutter_project/theme_color.dart';
+import 'package:flutter_project/pages/menu/navdrawer.dart';
+import 'package:flutter_project/utils/theme_color.dart';
 
 
 class CurrentInfo extends StatefulWidget {

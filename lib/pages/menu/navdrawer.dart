@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/aboutus.dart';
-import 'package:flutter_project/settings.dart';
+import 'package:flutter_project/pages/menu/aboutus.dart';
+import 'package:flutter_project/pages/menu/settings.dart';
 import 'package:provider/src/provider.dart';
 
-import 'authentication_service.dart';
+import '../../auth/authentication_service.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);
