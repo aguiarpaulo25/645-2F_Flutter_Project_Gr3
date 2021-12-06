@@ -23,7 +23,7 @@ class _PlotContainerState extends State<PlotContainer> with TickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF018786),
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text("Plots"),
         bottom: TabBar(
           indicatorColor: Colors.white,

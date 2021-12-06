@@ -16,9 +16,9 @@ class NavDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const SizedBox(height: 30),
-          const ListTile(
-            leading: Icon(Icons.account_circle, color: Color(0xFF666666)),
-            title: Text(
+          ListTile(
+            leading: Icon(Icons.account_circle, color: Theme.of(context).primaryIconTheme.color),
+            title: const Text(
               "test@test.ch",
             ),
           ),
@@ -30,17 +30,17 @@ class NavDrawer extends StatelessWidget {
             endIndent: 16,
           ),
           ListTile(
-            leading: const Icon(Icons.home, color: Color(0xFF666666)),
+            leading: Icon(Icons.home, color: Theme.of(context).primaryIconTheme.color),
             title: const Text('Home'),
             onTap: () => selectedItem(context, 0)
           ),
           ListTile(
-            leading: const Icon(Icons.settings, color: Color(0xFF666666)),
+            leading: Icon(Icons.settings, color: Theme.of(context).primaryIconTheme.color),
             title: const Text('Settings'),
             onTap: () => selectedItem(context, 1)
           ),
           ListTile(
-            leading: const Icon(Icons.info, color: Color(0xFF666666)),
+            leading: Icon(Icons.info, color: Theme.of(context).primaryIconTheme.color),
             title: const Text('About us'),
             onTap: () => selectedItem(context, 2)
           ),
@@ -48,7 +48,7 @@ class NavDrawer extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: ListTile(
-                  leading: const Icon(Icons.logout, color: Color(0xFF666666)),
+                  leading: Icon(Icons.logout, color: Theme.of(context).primaryIconTheme.color),
                   title: const Text('Log out'),
                   onTap: () => selectedItem(context, 3)
               ),

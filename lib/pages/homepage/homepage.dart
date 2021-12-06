@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_project/pages/menu/navdrawer.dart';
 import 'package:flutter_project/pages/homepage/current_info.dart';
 import 'package:flutter_project/pages/plots/plot_container.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: const NavDrawer(),
       bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: const Color(0xFF03DAC5),
+          selectedItemColor: Theme.of(context).primaryIconTheme.color,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           currentIndex: currentIndex,
