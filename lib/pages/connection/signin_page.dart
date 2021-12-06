@@ -53,6 +53,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text("Login"),
       ),
       body: Column(
@@ -60,8 +61,10 @@ class _SignInPageState extends State<SignInPage> {
           TextField(
             controller: emailController,
             decoration: const InputDecoration(
-                labelText: "Email", prefixIcon: Icon(Icons.email)),
-          ),
+                labelText: "Email",
+                prefixIcon: Icon(Icons.email)
+            ),
+                ),
           TextField(
               obscureText: _obscureText,
               controller: passwordController,
@@ -86,6 +89,7 @@ class _SignInPageState extends State<SignInPage> {
                   .then((value) => showMessage(value));
             },
             child: const Text("Sign in"),
+            style: Theme.of(context).elevatedButtonTheme.style,
           ),
           const SizedBox(height: 15.0),
           Row(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_project/pages/menu/navdrawer.dart';
-import 'package:flutter_project/utils/theme_color.dart';
 
 
 class CurrentInfo extends StatefulWidget {
@@ -17,7 +16,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF018786),
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text("Connected t-shirt"),
       ),
       body: Column(
@@ -35,7 +34,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
                           itemExtent: 200.0,
                           children: <Widget> [
                             Card(
-                                color: SecondaryColor,
+                                color: Theme.of(context).primaryColorLight,
                                 child: ListTile(
                                     leading: const Icon(
                                         Icons.favorite,
@@ -50,7 +49,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
                                     )
                                 )),
                             Card(
-                                color: SecondaryColor,
+                                color: Theme.of(context).primaryColorLight,
                                 child: ListTile(
                                     leading: const Icon(
                                         Icons.ac_unit,
@@ -65,7 +64,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
                                     )
                                 )),
                             Card(
-                                color: SecondaryColor,
+                                color: Theme.of(context).primaryColorLight,
                                 child: ListTile(
                                     leading: const Icon(
                                         Icons.water,
