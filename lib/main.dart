@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/authentication_service.dart';
-import 'package:flutter_project/theme_color.dart';
-import 'package:flutter_project/theme_service.dart';
+import 'package:flutter_project/auth/authentication_service.dart';
+import 'package:flutter_project/utils/theme_color.dart';
+import 'package:flutter_project/utils/theme_service.dart';
 import 'package:provider/provider.dart';
 
-import 'authentification_wrapper.dart';
+import 'auth/authentification_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

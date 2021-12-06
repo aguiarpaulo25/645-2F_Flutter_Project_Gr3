@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/theme_service.dart';
+import 'package:flutter_project/utils/theme_service.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
 class Settings extends StatefulWidget {
@@ -10,10 +11,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool isDark = false;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -25,12 +27,10 @@ class _SettingsState extends State<Settings> {
           ),
           SwitchListTile(
             title: const Text("Dark mode"),
-            value: isDark,
-            onChanged: (bool value) {
-              setState(() {
-                isDark = value;
-              });
-              context.read<ThemeService>().toggleMode();
+            value: theme.isDarkMode,
+            onChanged: (value) {
+              final provider = Provider.of<ThemeService>(context, listen: false);
+              provider.toggleMode(value);
             },
           ),
           const ListTile(

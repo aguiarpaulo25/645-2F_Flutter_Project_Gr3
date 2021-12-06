@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_project/navdrawer.dart';
-import 'package:flutter_project/pages/current_info.dart';
+import 'package:flutter_project/pages/menu/navdrawer.dart';
+import 'package:flutter_project/pages/homepage/current_info.dart';
 import 'package:flutter_project/pages/plots/plot_container.dart';
 
 class HomePage extends StatefulWidget {

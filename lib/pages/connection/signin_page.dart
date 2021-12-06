@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/signup_page.dart';
+import 'package:flutter_project/pages/connection/signup_page.dart';
 import 'package:provider/src/provider.dart';
 
-import 'authentication_service.dart';
+import '../../auth/authentication_service.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
