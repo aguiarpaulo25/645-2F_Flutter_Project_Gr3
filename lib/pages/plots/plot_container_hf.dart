@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/plots/hf_linechart.dart';
+import 'package:flutter_project/widgets/plots/hf_linechart.dart';
 
 class PlotContainerHF extends StatelessWidget {
   const PlotContainerHF({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class PlotContainerHF extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 16),
           child: HFLineChartWidget(),

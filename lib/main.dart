@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/auth/authentication_service.dart';
+import 'package:flutter_project/utils/firebase_service.dart';
 import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:flutter_project/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider<AuthenticationService>(
             create: (_) => AuthenticationService(FirebaseAuth.instance),
+          ),
+          Provider<FirebaseService>(
+            create: (_) => FirebaseService(),
           ),
           StreamProvider<User?>(
             create: (context) =>
