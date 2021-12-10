@@ -8,10 +8,14 @@ class PlotContainerHF extends StatefulWidget {
   _PlotContainerHFState createState() => _PlotContainerHFState();
 }
 
-class _PlotContainerHFState extends State<PlotContainerHF> {
+class _PlotContainerHFState extends State<PlotContainerHF> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Card(
         margin: const EdgeInsets.all(30),

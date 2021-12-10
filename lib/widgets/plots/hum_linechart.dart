@@ -17,10 +17,13 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var isLoading = true;
 
   void updateData() {
-    _service.getTemperature().then((value) => {
-      data = value
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _service
+          .getHumidity()
+          .then((value) => {data = value, isLoading = false});
     });
   }
 
@@ -32,8 +35,7 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    updateData();
-    return LineChart(
+    return isLoading ? Center(child: CircularProgressIndicator()) : LineChart(
         LineChartData(//min and max values of the chart
             minX: 0,
             maxX: 5,

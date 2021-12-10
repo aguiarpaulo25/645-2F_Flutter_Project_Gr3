@@ -17,10 +17,13 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var isLoading = true;
 
   void updateData() {
-    _service.getFrequency().then((value) => {
-      data = value
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _service
+          .getFrequency()
+          .then((value) => {data = value, isLoading = false});
     });
   }
 
@@ -32,15 +35,16 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    updateData();
-    return LineChart(
-        LineChartData(//min and max values of the chart
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : LineChart(LineChartData(
+            //min and max values of the chart
             minX: 0,
             maxX: 5,
             minY: 0,
             maxY: 150,
-
-            gridData: FlGridData( //grid
+            gridData: FlGridData(
+              //grid
               show: true,
               getDrawingHorizontalLine: (value) {
                 return FlLine(
@@ -60,32 +64,31 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
               show: true,
               border: Border.all(color: const Color(0xffe6e6e6), width: 1),
             ),
-            lineBarsData: [ // Draws the line
-              LineChartBarData(
-                  spots: [ //different points in the line chart
-                    FlSpot(0.0, data[0] * 1.0),
-                    FlSpot(1.0, data[1] * 1.0),
-                    FlSpot(2.0, data[2] * 1.0),
-                    FlSpot(3.0, data[3] * 1.0),
-                    FlSpot(4.0, data[4] * 1.0),
-                    FlSpot(5.0, data[5] * 1.0)
-                  ],
-                  isCurved: true,
-                  //curves the line
-                  colors: gradientColors,
-                  //makes the line gradient
-                  barWidth: 5,
-                  //dotData: FlDotData(show: false), //removes the dots in the line
-                  belowBarData: BarAreaData( //adds the color under the curve
-                    show: true,
-                    colors: gradientColors
-                        .map((color) => color.withOpacity(0.3))
-                        .toList(),
-                  )
-              )
-            ]
-        )
-    );
+            lineBarsData: [
+                // Draws the line
+                LineChartBarData(
+                    spots: [
+                      //different points in the line chart
+                      FlSpot(0.0, data[0] * 1.0),
+                      FlSpot(1.0, data[1] * 1.0),
+                      FlSpot(2.0, data[2] * 1.0),
+                      FlSpot(3.0, data[3] * 1.0),
+                      FlSpot(4.0, data[4] * 1.0),
+                      FlSpot(5.0, data[5] * 1.0)
+                    ],
+                    isCurved: true,
+                    //curves the line
+                    colors: gradientColors,
+                    //makes the line gradient
+                    barWidth: 5,
+                    //dotData: FlDotData(show: false), //removes the dots in the line
+                    belowBarData: BarAreaData(
+                      //adds the color under the curve
+                      show: true,
+                      colors: gradientColors
+                          .map((color) => color.withOpacity(0.3))
+                          .toList(),
+                    ))
+              ]));
   }
-
 }

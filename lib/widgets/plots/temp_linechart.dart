@@ -17,10 +17,13 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var isLoading = true;
 
   void updateData() {
-    _service.getTemperature().then((value) => {
-      data = value
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _service
+          .getTemperature()
+          .then((value) => {data = value, isLoading = false});
     });
   }
 
@@ -32,8 +35,7 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    updateData();
-    return LineChart(
+    return isLoading ? Center(child: CircularProgressIndicator()) : LineChart(
         LineChartData(//min and max values of the chart
             minX: 0,
             maxX: 5,
