@@ -8,10 +8,14 @@ class PlotContainerHUM extends StatefulWidget {
   _PlotContainerHUMState createState() => _PlotContainerHUMState();
 }
 
-class _PlotContainerHUMState extends State<PlotContainerHUM> {
+class _PlotContainerHUMState extends State<PlotContainerHUM> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Card(
         margin: const EdgeInsets.all(30),

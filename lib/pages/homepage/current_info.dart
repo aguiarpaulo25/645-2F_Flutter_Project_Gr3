@@ -46,7 +46,6 @@ class _CurrentInfoState extends State<CurrentInfo> {
 
   @override
   Widget build(BuildContext context) {
-    updateData();
 
     return Scaffold(
       appBar: AppBar(
