@@ -52,4 +52,52 @@ class FirebaseService {
     });
     return data;
   }
+
+  Future getLastestFrequency() async {
+    var data = <int>[];
+    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        if (doc.id == userId) {
+          List list = doc["29112021"] as List;
+          for (var element in list) {
+            data.add(element["frequence"]);
+          }
+        }
+      }
+    });
+
+    return data[data.length-1];
+  }
+
+  Future getLastestTemperature() async {
+    var data = <int>[];
+    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        if (doc.id == userId) {
+          List list = doc["29112021"] as List;
+          for (var element in list) {
+            data.add(element["temperature"]);
+          }
+        }
+      }
+    });
+
+    return data[data.length-1];
+  }
+
+  Future getLastestHumidity() async {
+    var data = <int>[];
+    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        if (doc.id == userId) {
+          List list = doc["29112021"] as List;
+          for (var element in list) {
+            data.add(element["humidity"]);
+          }
+        }
+      }
+    });
+
+    return data[data.length-1];
+  }
 }
