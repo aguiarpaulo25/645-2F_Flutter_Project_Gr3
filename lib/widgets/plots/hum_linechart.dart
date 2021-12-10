@@ -2,14 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 
-class HFLineChartWidget extends StatefulWidget {
-  const HFLineChartWidget({Key? key}) : super(key: key);
+class HUMLineChartWidget extends StatefulWidget {
+  const HUMLineChartWidget({Key? key}) : super(key: key);
 
   @override
-  _HFLineChartWidgetState createState() => _HFLineChartWidgetState();
+  _HUMLineChartWidgetState createState() => _HUMLineChartWidgetState();
 }
 
-class _HFLineChartWidgetState extends State<HFLineChartWidget> {
+class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
@@ -19,7 +19,7 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
   var data = [];
 
   void updateData() {
-    _service.getFrequency().then((value) => {
+    _service.getTemperature().then((value) => {
       data = value
     });
   }
@@ -38,7 +38,7 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
             minX: 0,
             maxX: 5,
             minY: 0,
-            maxY: 150,
+            maxY: 45,
 
             gridData: FlGridData( //grid
               show: true,

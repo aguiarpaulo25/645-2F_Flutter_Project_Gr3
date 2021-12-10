@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/plots/hf_linechart.dart';
+import 'package:flutter_project/widgets/plots/temp_linechart.dart';
 
-class PlotContainerHF extends StatefulWidget {
-  const PlotContainerHF({Key? key}) : super(key: key);
+class PlotContainerTEMP extends StatefulWidget {
+  const PlotContainerTEMP({Key? key}) : super(key: key);
 
   @override
-  _PlotContainerHFState createState() => _PlotContainerHFState();
+  _PlotContainerTEMPState createState() => _PlotContainerTEMPState();
 }
 
-class _PlotContainerHFState extends State<PlotContainerHF> {
+class _PlotContainerTEMPState extends State<PlotContainerTEMP> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _PlotContainerHFState extends State<PlotContainerHF> {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: const Padding(
           padding: EdgeInsets.only(top: 16, bottom: 16),
-          child: HFLineChartWidget(),
+          child: TEMPLineChartWidget(),
         ),
       ),
     );
