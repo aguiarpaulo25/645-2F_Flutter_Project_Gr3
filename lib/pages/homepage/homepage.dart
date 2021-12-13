@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/menu/navdrawer.dart';
 import 'package:flutter_project/pages/homepage/current_info.dart';
 import 'package:flutter_project/pages/plots/plot_container.dart';
+import 'package:flutter_project/utils/fetch_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    FetchData().addData();
+
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,

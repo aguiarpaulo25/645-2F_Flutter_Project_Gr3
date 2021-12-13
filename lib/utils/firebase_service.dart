@@ -8,6 +8,12 @@ class FirebaseService {
 
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
+  final DocumentReference _usercollection = FirebaseFirestore.instance.collection("users/"+FirebaseAuth.instance.currentUser!.uid).doc("29112021");
+
+  DocumentReference getUserColletion() {
+    return _usercollection;
+  }
+
   Future<List<dynamic>> getFrequency() async {
     var data = <int>[];
     await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
