@@ -6,23 +6,27 @@ import 'package:http/http.dart' as http;
 
 class FetchData {
 
-  DocumentReference userRef = FirebaseService().getUserColletion();
+  CollectionReference userRef = FirebaseService().getUserCollection();
 
   late Timer _timer;
 
   Future addData() async {
-    List<String> measures = await fetchShirtMeasures();
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    List<String> measures;
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+
+
+      measures = await fetchShirtMeasures();
       String time = measures[0];
       String frequency = measures[1];
       String temperature = measures[2];
       String humidity = measures[3];
-      userRef.set({
+      userRef.doc("AQxXZP8p4IdScUnQhLFLK9B3QrA2").set({"29112021":{
         "time":time,
-        "frequency" : frequency,
+        "frequence" : frequency,
         "temperature" : temperature,
         "humidity" : humidity
-      });
+      }}
+        );
     });
   }
 

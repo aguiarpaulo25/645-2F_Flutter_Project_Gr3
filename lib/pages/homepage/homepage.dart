@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     FetchData().addData();
-
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,

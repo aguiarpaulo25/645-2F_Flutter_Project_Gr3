@@ -8,9 +8,9 @@ class FirebaseService {
 
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  final DocumentReference _usercollection = FirebaseFirestore.instance.collection("users/"+FirebaseAuth.instance.currentUser!.uid).doc("29112021");
+  final CollectionReference _usercollection = FirebaseFirestore.instance.collection("users");
 
-  DocumentReference getUserColletion() {
+  CollectionReference getUserCollection() {
     return _usercollection;
   }
 
