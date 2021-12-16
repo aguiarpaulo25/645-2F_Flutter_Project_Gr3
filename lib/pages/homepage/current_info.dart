@@ -21,19 +21,38 @@ class _CurrentInfoState extends State<CurrentInfo> {
   void updateData() {
     _service.getLastestFrequency().then((value) => {
       setState(() {
-        frequency = value;
+        try {
+          frequency = value;
+        }
+        catch (e)
+        {
+          frequency = 0;
+        }
+
       })
     });
 
     _service.getLastestTemperature().then((value) => {
       setState(() {
-        temperature = value;
+        try {
+          temperature = value;
+        }
+        catch (e)
+        {
+          temperature = 0;
+        }
       })
     });
 
     _service.getLastestHumidity().then((value) => {
       setState(() {
-        humidity = value;
+        try {
+          humidity = value;
+        }
+        catch (e)
+        {
+          humidity = 0;
+        }
       })
     });
   }
@@ -61,9 +80,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
                 color: Theme.of(context).primaryColorDark)),
         Expanded(
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("/User/29.11.2021/tshirt")
-                    .snapshots(),
+                stream: FirebaseService().getUserCollection().snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) return const LinearProgressIndicator();

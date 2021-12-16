@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,25 +10,28 @@ class FetchData {
 
   CollectionReference userRef = FirebaseService().getUserCollection();
 
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
   late Timer _timer;
 
   Future addData() async {
-    List<String> measures;
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    List<dynamic> measures;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
 
-
+      
       measures = await fetchShirtMeasures();
       String time = measures[0];
-      String frequency = measures[1];
-      String temperature = measures[2];
-      String humidity = measures[3];
-      userRef.doc("AQxXZP8p4IdScUnQhLFLK9B3QrA2").set({"29112021":{
+      int frequency = int.parse(measures[1]);
+      int temperature = int.parse(measures[2]);
+      int humidity = int.parse(measures[3]);
+
+      userRef.doc(userId).set({(DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()): [{
         "time":time,
-        "frequence" : frequency,
+        "frequency" : frequency,
         "temperature" : temperature,
         "humidity" : humidity
-      }}
-        );
+      }]}
+      );
     });
   }
 
@@ -42,7 +47,7 @@ class FetchData {
         _measures = response.body.split(" ");
       }
     } on SocketException {
-      return _measures;
+      debugPrint("Ex");
     }
 
     return _measures;
