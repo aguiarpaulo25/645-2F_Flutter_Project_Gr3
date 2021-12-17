@@ -14,9 +14,9 @@ class CurrentInfo extends StatefulWidget {
 
 class _CurrentInfoState extends State<CurrentInfo> {
   final FirebaseService _service = FirebaseService();
-  int frequency = 0;
-  int temperature = 0;
-  int humidity = 0;
+  var frequency;
+  var temperature;
+  var humidity;
 
   void updateData() {
     _service.getLastestFrequency().then((value) => {
@@ -26,7 +26,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
         }
         catch (e)
         {
-          frequency = 0;
+          debugPrint("Fetching frequency failed");
         }
 
       })
@@ -39,7 +39,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
         }
         catch (e)
         {
-          temperature = 0;
+          debugPrint("Fetching temperature failed");
         }
       })
     });
@@ -51,7 +51,7 @@ class _CurrentInfoState extends State<CurrentInfo> {
         }
         catch (e)
         {
-          humidity = 0;
+          debugPrint("Fetching humidity failed");
         }
       })
     });
@@ -89,21 +89,21 @@ class _CurrentInfoState extends State<CurrentInfo> {
                     CurrentInfoCard(
                         cardTitle: 'Heart Frequency',
                         cardIcon: Icons.favorite_border_outlined,
-                        connectionToDb: frequency.toString() +
+                        connectionToDb: frequency +
                             " Hz",
                         cardColor: Theme.of(context).primaryColorLight),
 
                     CurrentInfoCard(
                         cardTitle: 'Temperature',
                         cardIcon:Icons.thermostat_outlined,
-                        connectionToDb: temperature.toString() +
+                        connectionToDb: temperature +
                             " °C",
                         cardColor: Theme.of(context).cardColor),
 
                     CurrentInfoCard(
                         cardTitle: 'Humidity',
                         cardIcon:Icons.opacity_outlined,
-                        connectionToDb: humidity.toString() +
+                        connectionToDb: humidity +
                             " %",
                         cardColor: Theme.of(context).secondaryHeaderColor),
                   ]);

@@ -16,21 +16,23 @@ class FetchData {
 
   Future addData() async {
     List<dynamic> measures;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
 
-      
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       measures = await fetchShirtMeasures();
-      String time = measures[0];
-      int frequency = int.parse(measures[1]);
-      int temperature = int.parse(measures[2]);
-      int humidity = int.parse(measures[3]);
+      var allData;
+      int length = 0;
+      try {
+        length = (await FirebaseService().getHumidity().timeout(const Duration(milliseconds: 1000))).length;
+        allData = (await FirebaseService().getAll().timeout(const Duration(seconds : 1)));
+        allData.add({"time": measures[0], "temperature": measures[3], "humidity": measures[2], "frequency": measures[1]});
 
-      userRef.doc(userId).set({(DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()): [{
-        "time":time,
-        "frequency" : frequency,
-        "temperature" : temperature,
-        "humidity" : humidity
-      }]}
+      } on TimeoutException catch (error) {
+        debugPrintStack();
+        length = 0;
+        allData = List.empty();
+      }
+
+      userRef.doc(userId).set({(DateTime.now().day).toString()+DateTime.now().month.toString()+DateTime.now().year.toString(): FieldValue.arrayUnion(allData)}
       );
     });
   }
