@@ -1,5 +1,7 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/connection/signup_page.dart';
+import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:provider/src/provider.dart';
 
 import '../../auth/authentication_service.dart';
@@ -54,17 +56,17 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Login"),
+        title: const Text("Login").tr(),
       ),
       body: Column(
         children: [
           TextField(
             controller: emailController,
             decoration: const InputDecoration(
-                labelText: "Email",
-                prefixIcon: Icon(Icons.email)
+              labelText: "Email",
+              prefixIcon: Icon(Icons.email),
             ),
-                ),
+          ),
           TextField(
               obscureText: _obscureText,
               controller: passwordController,
@@ -77,7 +79,7 @@ class _SignInPageState extends State<SignInPage> {
                         _obscureText ? Icons.visibility : Icons.visibility_off,
                         color: _obscureText
                             ? const Color(0xFF666666)
-                            : Colors.blue),
+                            : Theme.of(context).primaryColor),
                   ))),
           const SizedBox(height: 15.0),
           ElevatedButton(

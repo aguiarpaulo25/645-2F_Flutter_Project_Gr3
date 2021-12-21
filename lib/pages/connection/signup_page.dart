@@ -92,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         _obscureText ? Icons.visibility : Icons.visibility_off,
                         color: _obscureText
                             ? const Color(0xFF666666)
-                            : Colors.blue),
+                            : Theme.of(context).primaryColor),
                   ))),
           const SizedBox(height: 15.0),
           ElevatedButton(
