@@ -1,30 +1,33 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
-class AboutUs extends StatelessWidget {
-  const AboutUs({Key? key}) : super(key: key);
+class Contact extends StatelessWidget {
+  const Contact({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("AboutUs").tr(),
+        title: const Text("Contact"),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Text(
-              tr("AboutUsText"),
+              tr("ContactText"),
               style: const TextStyle(fontSize: 22),
               textAlign: TextAlign.center,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Image.asset('assets/hes-so.png'),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Text(
+              "contact@connectedtshirt.ch",
+              style: TextStyle(fontSize: 22, color: Colors.blue),
+              textAlign: TextAlign.center,
+            ),
           )
         ],
       ),

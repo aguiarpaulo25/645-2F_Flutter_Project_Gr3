@@ -13,15 +13,24 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String dropDownValue = "English";
-  List<String> dropDownList = [
-    'English',
-    'Français',
-  ];
-
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeProvider>(context);
+
+    var actualLocale = EasyLocalization.of(context)!.currentLocale.toString();
+    String dropDownValue;
+    switch (actualLocale) {
+      case "fr_FR":
+        dropDownValue = "Français";
+        break;
+      default:
+        dropDownValue = "English";
+        break;
+    }
+    List<String> dropDownList = [
+      'English',
+      'Français',
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -43,41 +52,51 @@ class _SettingsState extends State<Settings> {
               provider.toggleMode(value);
             },
           ),
-          const ListTile(
-            title: Text("Language"),
-          ),
-          DropdownButton<String>(
-            value: dropDownValue,
-            elevation: 10,
-            underline: Container(
-              height: 2,
-              color: ThemeColors.lightTheme.primaryColor,
-            ),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropDownValue = newValue!;
+          Row(
+            children: [
+              const Expanded(
+                child: ListTile(
+                  title: Text("Language"),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: DropdownButton<String>(
+                  value: dropDownValue,
+                  elevation: 10,
+                  underline: Container(
+                    height: 2,
+                    color: ThemeColors.lightTheme.primaryColor,
+                  ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropDownValue = newValue!;
 
-                switch (newValue) {
-                  case "English":
-                    EasyLocalization.of(context)!
-                        .setLocale(const Locale('en', 'US'));
-                    break;
-                  case "Français":
-                    EasyLocalization.of(context)!
-                        .setLocale(const Locale('fr', 'FR'));
-                    break;
-                  default:
-                    EasyLocalization.of(context)!
-                        .setLocale(const Locale('en', 'US'));
-                }
-              });
-            },
-            items: dropDownList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+                      switch (newValue) {
+                        case "English":
+                          EasyLocalization.of(context)!
+                              .setLocale(const Locale('en', 'US'));
+                          break;
+                        case "Français":
+                          EasyLocalization.of(context)!
+                              .setLocale(const Locale('fr', 'FR'));
+                          break;
+                        default:
+                          EasyLocalization.of(context)!
+                              .setLocale(const Locale('en', 'US'));
+                      }
+                    });
+                  },
+                  items: dropDownList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
         ],
       ),

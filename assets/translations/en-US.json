@@ -2,5 +2,9 @@
   "Welcome": "Welcome",
   "Settings": "Settings",
   "Login": "Login",
-  "Heart Frenquency": "Heart Frequency"
+  "HeartFrenquency": "Heart Frequency",
+  "AboutUs": "About us",
+  "AboutUsText": "This application has been realized within the framework of the course 645-2 - Project at the University of Applied Sciences of Western Switzerland in order to learn to use Flutter, Firebase and Scrum project management.\n\nDevelopers :\nAguiar Paulo, Albrecht Jonathan, Gay Cathy, Moreno Ismaël",
+  "Contact": "Contact",
+  "ContactText": "If you need more information, want to report a bug or simply send us feedback, you can send us an email at :"
 }
