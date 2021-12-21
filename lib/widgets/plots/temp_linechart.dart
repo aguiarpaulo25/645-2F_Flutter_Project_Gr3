@@ -18,11 +18,39 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var timeList = [];
+  var convertedTimeList = [];
 
   Future<void> updateData() async {
     _service.getTemperature().then((value) => setState(() {
       data.addAll(value);
     }));
+
+    _service.getTime().then((value) => setState(() {
+      timeList.addAll(value);
+      convertedTimeList = convertTimeToDouble()!;
+    }));
+  }
+
+  List<FlSpot>? _graphSpots() {
+    List<FlSpot> list = [];
+
+    for(int i = 0; i < data.length - 1; i++) {
+      list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+    }
+
+    return list;
+  }
+
+  List<double>? convertTimeToDouble() {
+    List<double> list = [];
+
+    for(int i = 0; i < timeList.length - 1; i++) {
+      String temp = timeList[i].replaceAll(":", "");
+      double convertedTime = double.parse(temp.substring(0, 2)) + double.parse(temp.substring(2, 4)) / 60;
+      list.add(convertedTime);
+    }
+    return list;
   }
 
   @override
@@ -42,7 +70,7 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
             return LineChart(LineChartData(
                 //min and max values of the chart
                 minX: 0,
-                maxX: 5,
+                maxX: 24,
                 minY: 0,
                 maxY: 70,
                 gridData: FlGridData(
@@ -69,21 +97,13 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
                 lineBarsData: [
                   // Draws the line
                   LineChartBarData(
-                      spots: [
-                        //different points in the line chart
-                        FlSpot(0.0, double.parse(data[0])),
-                        FlSpot(1.0, double.parse(data[1])),
-                        FlSpot(2.0, double.parse(data[2])),
-                        FlSpot(3.0, double.parse(data[3])),
-                        FlSpot(4.0, double.parse(data[4])),
-                        FlSpot(5.0, double.parse(data[5]))
-                      ],
+                      spots: _graphSpots(),
                       isCurved: true,
                       //curves the line
                       colors: gradientColors,
                       //makes the line gradient
                       barWidth: 5,
-                      //dotData: FlDotData(show: false), //removes the dots in the line
+                      dotData: FlDotData(show: false), //removes the dots in the line
                       belowBarData: BarAreaData(
                         //adds the color under the curve
                         show: true,

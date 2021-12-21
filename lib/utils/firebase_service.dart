@@ -19,7 +19,7 @@ class FirebaseService {
   }
 
   Future<List<dynamic>> getAll() async {
-    var data = <dynamic>[];
+    var data = [];
     try {
       await _usercollection
           .doc(userId)
@@ -118,8 +118,33 @@ class FirebaseService {
     return data;
   }
 
+  Future<List<dynamic>> getTime() async {
+    var data = [];
+    try {
+      await _usercollection
+          .doc(userId)
+          .collection("days")
+          .get()
+          .then((QuerySnapshot snapshot) {
+        for (var doc in snapshot.docs) {
+          if (doc.id == todaysDate) {
+            List list = doc["data"] as List;
+            for (var element in list) {
+              data.add(element["time"]);
+            }
+          }
+        }
+      });
+    } catch (e) {
+      debugPrintStack();
+      return data;
+    }
+
+    return data;
+  }
+
   Future getLastestFrequency() async {
-    var data = <String>[];
+    var data = [];
     await _usercollection
         .doc(userId)
         .collection("days")
@@ -143,7 +168,7 @@ class FirebaseService {
   }
 
   Future getLastestTemperature() async {
-    var data = <String>[];
+    var data = [];
     await _usercollection
         .doc(userId)
         .collection("days")
@@ -166,7 +191,7 @@ class FirebaseService {
   }
 
   Future getLastestHumidity() async {
-    var data = <String>[];
+    var data = [];
     await _usercollection
         .doc(userId)
         .collection("days")
