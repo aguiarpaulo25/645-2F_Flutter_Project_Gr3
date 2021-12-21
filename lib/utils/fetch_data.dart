@@ -12,6 +12,10 @@ class FetchData {
 
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
+  final String todaysDate = DateTime.now().day.toString() +
+      DateTime.now().month.toString() +
+      DateTime.now().year.toString();
+
   late Timer _timer;
 
   Future addData() async {
@@ -32,7 +36,7 @@ class FetchData {
         allData = List.empty();
       }
 
-      userRef.doc(userId).set({(DateTime.now().day).toString()+DateTime.now().month.toString()+DateTime.now().year.toString(): FieldValue.arrayUnion(allData)}
+      userRef.doc(userId).collection("days").doc(todaysDate).set({"data": FieldValue.arrayUnion(allData)}
       );
     });
   }

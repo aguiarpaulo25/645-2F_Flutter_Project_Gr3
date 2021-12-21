@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/plots/hum_linechart.dart';
+import 'package:flutter_project/widgets/plots/temp_linechart.dart';
 
 class PlotContainerHUM extends StatefulWidget {
   const PlotContainerHUM({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _PlotContainerHUMState extends State<PlotContainerHUM> with AutomaticKeepA
         color: Theme.of(context).scaffoldBackgroundColor,
         child: const Padding(
           padding: EdgeInsets.only(top: 16, bottom: 16),
-          child: HUMLineChartWidget(),
+          child: TEMPLineChartWidget(),
         ),
       ),
     );

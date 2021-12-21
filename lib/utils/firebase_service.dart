@@ -5,11 +5,14 @@ import 'package:flutter/cupertino.dart';
 class FirebaseService {
   FirebaseService();
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  final CollectionReference _usercollection = FirebaseFirestore.instance.collection("users");
+  final CollectionReference _usercollection =
+      FirebaseFirestore.instance.collection("users");
+
+  final String todaysDate = DateTime.now().day.toString() +
+      DateTime.now().month.toString() +
+      DateTime.now().year.toString();
 
   CollectionReference getUserCollection() {
     return _usercollection;
@@ -18,74 +21,89 @@ class FirebaseService {
   Future<List<dynamic>> getAll() async {
     var data = <dynamic>[];
     try {
-      await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      await _usercollection
+          .doc(userId)
+          .collection("days")
+          .get()
+          .then((QuerySnapshot snapshot) {
         for (var doc in snapshot.docs) {
-          if (doc.id == userId) {
-            List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+          if(doc.id == todaysDate) {
+            List list = doc["data"] as List;
             for (var element in list) {
               data.add(element);
             }
           }
         }
       });
-    }
-    catch (e) {
+    } catch (e) {
       debugPrintStack();
       return data;
     }
+
     return data;
   }
 
-
   Future<List<dynamic>> getFrequency() async {
-    var data = <int>[];
+    var data = [];
     try {
-      await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      await _usercollection
+          .doc(userId)
+          .collection("days")
+          .get()
+          .then((QuerySnapshot snapshot) {
         for (var doc in snapshot.docs) {
-          if (doc.id == userId) {
-            List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+          if (doc.id == todaysDate) {
+            List list = doc["data"] as List;
             for (var element in list) {
               data.add(element["frequency"]);
             }
           }
         }
       });
-    }
-    catch (e) {
+    } catch (e) {
       debugPrintStack();
       return data;
     }
+
     return data;
   }
 
   Future<List<dynamic>> getTemperature() async {
-    var data = <int>[];
+    var data = [];
     try {
-      await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      await _usercollection
+          .doc(userId)
+          .collection("days")
+          .get()
+          .then((QuerySnapshot snapshot) {
         for (var doc in snapshot.docs) {
-          if (doc.id == userId) {
-            List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+          if (doc.id == todaysDate) {
+            List list = doc["data"] as List;
             for (var element in list) {
               data.add(element["temperature"]);
             }
           }
         }
       });
-    }
-    catch (e) {
+    } catch (e) {
       debugPrintStack();
       return data;
     }
+
     return data;
   }
 
   Future<List<dynamic>> getHumidity() async {
-    var data = <int>[];
+    var data = [];
     try {
-      await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+      await _usercollection
+          .doc(userId)
+          .collection("days")
+          .get()
+          .then((QuerySnapshot snapshot) {
         for (var doc in snapshot.docs) {
-          if (doc.id == userId) {
-            List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+          if (doc.id == todaysDate) {
+            List list = doc["data"] as List;
             for (var element in list) {
               data.add(element["humidity"]);
             }
@@ -102,10 +120,14 @@ class FirebaseService {
 
   Future getLastestFrequency() async {
     var data = <String>[];
-    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        if (doc.id == userId) {
-          List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+        if (doc.id == todaysDate) {
+          List list = doc["data"] as List;
           for (var element in list) {
             data.add(element['frequency']);
           }
@@ -114,19 +136,22 @@ class FirebaseService {
     });
 
     try {
-      return data[data.length-1];
-    }
-    catch (e) {
+      return data[data.length - 1];
+    } catch (e) {
       return 0;
     }
   }
 
   Future getLastestTemperature() async {
     var data = <String>[];
-    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        if (doc.id == userId) {
-          List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+        if (doc.id == todaysDate) {
+          List list = doc["data"] as List;
           for (var element in list) {
             data.add(element['temperature']);
           }
@@ -134,19 +159,22 @@ class FirebaseService {
       }
     });
     try {
-      return data[data.length-1];
-    }
-    catch (e) {
+      return data[data.length - 1];
+    } catch (e) {
       return 0;
     }
   }
 
   Future getLastestHumidity() async {
     var data = <String>[];
-    await _firestore.collection("users").get().then((QuerySnapshot snapshot) {
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        if (doc.id == userId) {
-          List list = doc[DateTime.now().day.toString()+DateTime.now().month.toString()+DateTime.now().year.toString()] as List;
+        if (doc.id == todaysDate) {
+          List list = doc["data"] as List;
           for (var element in list) {
             data.add(element['humidity']);
           }
@@ -154,9 +182,8 @@ class FirebaseService {
       }
     });
     try {
-      return data[data.length-1];
-    }
-    catch (e) {
+      return data[data.length - 1];
+    } catch (e) {
       return 0;
     }
   }
