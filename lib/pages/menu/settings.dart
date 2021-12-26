@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/fetch_data.dart';
 import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:flutter_project/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,12 @@ class _SettingsState extends State<Settings> {
               provider.toggleMode(value);
             },
           ),
+          const ListTile(title : Text("Refreshrate")),
+          Slider(value: FetchData.refreshRate, max : 30, min : 1, onChanged: (double value) {
+            setState(() {
+              FetchData().restartTimer(value);
+            });
+          }),
           Row(
             children: [
               const Expanded(

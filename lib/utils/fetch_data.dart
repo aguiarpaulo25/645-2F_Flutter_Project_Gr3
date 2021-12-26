@@ -12,19 +12,27 @@ class FetchData {
 
   static bool timerStarted = false;
 
+  static double refreshRate = 10;
+
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
   final String todaysDate = DateTime.now().day.toString() +
       DateTime.now().month.toString() +
       DateTime.now().year.toString();
 
-  late Timer _timer;
+  static late Timer _timer;
+
+  restartTimer(double refreshRateT) {
+    refreshRate = refreshRateT;
+    _timer.cancel();
+    timerStarted = false;
+    addData();
+  }
 
   Future addData() async {
     List<dynamic> measures;
 
-
-    if (!timerStarted) {_timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    if (!timerStarted) {_timer = Timer.periodic(Duration(seconds: refreshRate.toInt()), (timer) async {
       measures = await fetchShirtMeasures();
       timerStarted = true;
       var allData;
