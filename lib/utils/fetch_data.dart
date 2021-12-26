@@ -10,6 +10,8 @@ class FetchData {
 
   CollectionReference userRef = FirebaseService().getUserCollection();
 
+  static bool timerStarted = false;
+
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
   final String todaysDate = DateTime.now().day.toString() +
@@ -21,24 +23,23 @@ class FetchData {
   Future addData() async {
     List<dynamic> measures;
 
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+
+    if (!timerStarted) {_timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       measures = await fetchShirtMeasures();
+      timerStarted = true;
       var allData;
-      int length = 0;
       try {
-        length = (await FirebaseService().getHumidity().timeout(const Duration(milliseconds: 1000))).length;
         allData = (await FirebaseService().getAll().timeout(const Duration(seconds : 1)));
         allData.add({"time": measures[0], "temperature": measures[3], "humidity": measures[2], "frequency": measures[1]});
 
       } on TimeoutException catch (error) {
         debugPrintStack();
-        length = 0;
         allData = List.empty();
       }
 
       userRef.doc(userId).collection("days").doc(todaysDate).set({"data": FieldValue.arrayUnion(allData)}
       );
-    });
+    });}
   }
 
   Future<List<String>> fetchShirtMeasures() async {
