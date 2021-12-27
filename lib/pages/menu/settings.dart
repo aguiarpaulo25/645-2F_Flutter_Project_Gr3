@@ -33,6 +33,8 @@ class _SettingsState extends State<Settings> {
       'Français',
     ];
 
+    List<int> refreshValueList = [1, 6, 11, 16, 20, 25, 30];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -53,12 +55,22 @@ class _SettingsState extends State<Settings> {
               provider.toggleMode(value);
             },
           ),
-          const ListTile(title : Text("Refreshrate")),
-          Slider(value: FetchData.refreshRate, max : 30, min : 1, onChanged: (double value) {
-            setState(() {
-              FetchData().restartTimer(value);
-            });
-          }),
+          const ListTile(title: Text("Refreshrate")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: refreshValueList.map((e) => Text(e.toString())).toList(),
+          ),
+          Slider(
+              value: FetchData.refreshRate,
+              max: 30,
+              min: 1,
+              divisions: 6,
+              label: FetchData.refreshRate.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  FetchData().restartTimer(value);
+                });
+              }),
           Row(
             children: [
               const Expanded(
