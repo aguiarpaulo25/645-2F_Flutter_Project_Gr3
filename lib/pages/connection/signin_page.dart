@@ -93,24 +93,26 @@ class _SignInPageState extends State<SignInPage> {
             child: const Text("Sign in"),
             style: Theme.of(context).elevatedButtonTheme.style,
           ),
-          const SizedBox(height: 15.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text("Don't have an account ? "),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()),
-                  );
-                },
-                child: const Text('Register',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text("Don't have an account ? "),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                    );
+                  },
+                  child: const Text('Register',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline)),
+                ),
+              ],
+            ),
           )
         ],
       ),

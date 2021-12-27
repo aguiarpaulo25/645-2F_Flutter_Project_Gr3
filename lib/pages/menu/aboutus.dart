@@ -25,7 +25,15 @@ class AboutUs extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Image.asset('assets/hes-so.png'),
-          )
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+            child: Text(
+              ("© Copyright 2022 - HES-SO"),
+              style: TextStyle(fontSize: 22),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     );
