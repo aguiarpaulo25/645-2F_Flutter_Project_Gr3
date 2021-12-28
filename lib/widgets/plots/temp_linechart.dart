@@ -20,6 +20,8 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
   var data = [];
   var timeList = [];
   var convertedTimeList = [];
+  var showAvg = false;
+  var averages = [];
 
   Future<void> updateData() async {
     _service.getTemperature().then((value) => setState(() {
@@ -30,13 +32,27 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
       timeList.addAll(value);
       convertedTimeList = convertTimeToDouble()!;
     }));
+
+    _service.getAllTemperatureAverages().then((value) => setState(() {
+      averages.addAll(value);
+    }));
   }
 
-  List<FlSpot>? _graphSpots() {
+  List<FlSpot>? _mainGraphSpots() {
     List<FlSpot> list = [];
 
     for(int i = 0; i < data.length - 1; i++) {
       list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+    }
+
+    return list;
+  }
+
+  List<FlSpot>? _averageGraphSpots() {
+    List<FlSpot> list = [];
+
+    for (int i = 0; i < averages.length; i++) {
+      list.add(FlSpot(i.toDouble(), averages[i]));
     }
 
     return list;
@@ -59,6 +75,113 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
     updateData();
   }
 
+  LineChartData mainData() {
+    return LineChartData(
+      //min and max values of the chart
+        minX: 0,
+        maxX: 24,
+        minY: 0,
+        maxY: 70,
+        gridData: FlGridData(
+          //grid
+          show: true,
+          getDrawingHorizontalLine: (value) {
+            return FlLine(
+              color: const Color(0xffe6e6e6),
+              strokeWidth: 1,
+            );
+          },
+          drawVerticalLine: true,
+          getDrawingVerticalLine: (value) {
+            return FlLine(
+              color: const Color(0xffe6e6e6),
+              strokeWidth: 1,
+            );
+          },
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: SideTitles(showTitles: false),
+          topTitles: SideTitles(showTitles: false),
+        ),
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0xffe6e6e6), width: 1),
+        ),
+        lineBarsData: [
+          // Draws the line
+          LineChartBarData(
+              spots: _mainGraphSpots(),
+              isCurved: true,
+              //curves the line
+              colors: gradientColors,
+              //makes the line gradient
+              barWidth: 5,
+              dotData: FlDotData(show: false),
+              //removes the dots in the line
+              belowBarData: BarAreaData(
+                //adds the color under the curve
+                show: true,
+                colors: gradientColors
+                    .map((color) => color.withOpacity(0.3))
+                    .toList(),
+              ))
+        ]);
+  }
+
+  LineChartData avgData() {
+    return LineChartData(
+        minX: 0,
+        maxX: averages.length.toDouble() - 1,
+        minY: 0,
+        maxY: 70,
+        gridData: FlGridData(
+          //grid
+          show: true,
+          getDrawingHorizontalLine: (value) {
+            return FlLine(
+              color: const Color(0xffe6e6e6),
+              strokeWidth: 1,
+            );
+          },
+          drawVerticalLine: true,
+          getDrawingVerticalLine: (value) {
+            return FlLine(
+              color: const Color(0xffe6e6e6),
+              strokeWidth: 1,
+            );
+          },
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: SideTitles(showTitles: false),
+          topTitles: SideTitles(showTitles: false),
+        ),
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0xffe6e6e6), width: 1),
+        ),
+        lineBarsData: [
+          // Draws the line
+          LineChartBarData(
+              spots: _averageGraphSpots(),
+              isCurved: true,
+              //curves the line
+              colors: gradientColors,
+              //makes the line gradient
+              barWidth: 5,
+              dotData: FlDotData(show: false),
+              //removes the dots in the line
+              belowBarData: BarAreaData(
+                //adds the color under the curve
+                show: true,
+                colors: gradientColors
+                    .map((color) => color.withOpacity(0.3))
+                    .toList(),
+              ))
+        ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -67,51 +190,47 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
           if (data.isEmpty) {
             return const LinearProgressIndicator();
           } else {
-            return LineChart(LineChartData(
-                //min and max values of the chart
-                minX: 0,
-                maxX: 24,
-                minY: 0,
-                maxY: 70,
-                gridData: FlGridData(
-                  //grid
-                  show: true,
-                  getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: const Color(0xffe6e6e6),
-                      strokeWidth: 1,
-                    );
-                  },
-                  drawVerticalLine: true,
-                  getDrawingVerticalLine: (value) {
-                    return FlLine(
-                      color: const Color(0xffe6e6e6),
-                      strokeWidth: 1,
-                    );
-                  },
+            return Stack(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      showAvg ? 'Average of all data' : 'Today\'s data',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: Border.all(color: const Color(0xffe6e6e6), width: 1),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        right: 18.0, left: 12.0, top: 24, bottom: 12),
+                    child: LineChart(
+                      showAvg ? avgData() : mainData(),
+                    ),
+                  ),
                 ),
-                lineBarsData: [
-                  // Draws the line
-                  LineChartBarData(
-                      spots: _graphSpots(),
-                      isCurved: true,
-                      //curves the line
-                      colors: gradientColors,
-                      //makes the line gradient
-                      barWidth: 5,
-                      dotData: FlDotData(show: false), //removes the dots in the line
-                      belowBarData: BarAreaData(
-                        //adds the color under the curve
-                        show: true,
-                        colors: gradientColors
-                            .map((color) => color.withOpacity(0.3))
-                            .toList(),
-                      ))
-                ]));
+                SizedBox(
+                  width: 150,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        showAvg = !showAvg;
+                      });
+                    },
+                    child: Text(
+                      'avg',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: showAvg
+                              ? Theme.of(context).primaryColor
+                              : Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            );
           }
         });
   }

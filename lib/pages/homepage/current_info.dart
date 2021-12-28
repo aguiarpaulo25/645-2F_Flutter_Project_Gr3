@@ -89,21 +89,21 @@ class _CurrentInfoState extends State<CurrentInfo> {
                     CurrentInfoCard(
                         cardTitle: 'Heart Frequency',
                         cardIcon: Icons.favorite_border_outlined,
-                        connectionToDb: frequency +
+                        connectionToDb: frequency.toString() +
                             " Hz",
                         cardColor: Theme.of(context).primaryColorLight),
 
                     CurrentInfoCard(
                         cardTitle: 'Temperature',
                         cardIcon:Icons.thermostat_outlined,
-                        connectionToDb: temperature +
+                        connectionToDb: temperature.toString() +
                             " °C",
                         cardColor: Theme.of(context).cardColor),
 
                     CurrentInfoCard(
                         cardTitle: 'Humidity',
                         cardIcon:Icons.opacity_outlined,
-                        connectionToDb: humidity +
+                        connectionToDb: humidity.toString() +
                             " %",
                         cardColor: Theme.of(context).secondaryHeaderColor),
                   ]);

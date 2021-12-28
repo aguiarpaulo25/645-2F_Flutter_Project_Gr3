@@ -18,6 +18,10 @@ class FirebaseService {
     return _usercollection;
   }
 
+  String getUserId() {
+    return userId;
+  }
+
   Future<List<dynamic>> getAll() async {
     var data = [];
     try {
@@ -27,7 +31,7 @@ class FirebaseService {
           .get()
           .then((QuerySnapshot snapshot) {
         for (var doc in snapshot.docs) {
-          if(doc.id == todaysDate) {
+          if (doc.id == todaysDate) {
             List list = doc["data"] as List;
             for (var element in list) {
               data.add(element);
@@ -211,5 +215,71 @@ class FirebaseService {
     } catch (e) {
       return 0;
     }
+  }
+
+  Future<List<dynamic>> getAllFrequencyAverages() async {
+    var averages = [];
+    var result = 0.0;
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        List list = doc["data"] as List;
+        result = 0.0;
+        for (var element in list) {
+          result += double.parse(element["frequency"]);
+        }
+        result /= list.length - 1;
+        averages.add(result);
+      }
+    });
+
+    return averages;
+  }
+
+  Future<List<dynamic>> getAllTemperatureAverages() async {
+    var averages = [];
+    var result = 0.0;
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        List list = doc["data"] as List;
+        result = 0.0;
+        for (var element in list) {
+          result += double.parse(element["temperature"]);
+        }
+        result /= list.length - 1;
+        averages.add(result);
+      }
+    });
+
+    return averages;
+  }
+
+  Future<List<dynamic>> getAllHumidityAverages() async {
+    var averages = [];
+    var result = 0.0;
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        List list = doc["data"] as List;
+        result = 0.0;
+        for (var element in list) {
+          result += double.parse(element["humidity"]);
+        }
+        result /= list.length - 1;
+        averages.add(result);
+      }
+    });
+
+    return averages;
   }
 }
