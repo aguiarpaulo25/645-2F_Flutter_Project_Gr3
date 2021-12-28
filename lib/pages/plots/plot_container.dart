@@ -65,8 +65,8 @@ class _PlotContainerState extends State<PlotContainer> with TickerProviderStateM
         controller: tabController,
         children: const [
           PlotContainerHF(),
-          PlotContainerTEMP(),
           PlotContainerHUM(),
+          PlotContainerTEMP(),
         ],
       ),
     );
