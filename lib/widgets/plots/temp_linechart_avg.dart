@@ -3,14 +3,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 
-class HUMLineChartWidget extends StatefulWidget {
-  const HUMLineChartWidget({Key? key}) : super(key: key);
+class TEMPLineChartAvgWidget extends StatefulWidget {
+  const TEMPLineChartAvgWidget({Key? key}) : super(key: key);
 
   @override
-  _HUMLineChartWidgetState createState() => _HUMLineChartWidgetState();
+  _TEMPLineChartAvgWidgetState createState() => _TEMPLineChartAvgWidgetState();
 }
 
-class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
+class _TEMPLineChartAvgWidgetState extends State<TEMPLineChartAvgWidget> {
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
@@ -18,38 +18,26 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
-  var timeList = [];
-  var convertedTimeList = [];
+  var showAvg = false;
+  var averages = [];
 
   Future<void> updateData() async {
-    _service.getHumidity().then((value) => setState(() {
-          data.addAll(value);
-        }));
+    _service.getTemperature().then((value) => setState(() {
+      data.addAll(value);
+    }));
 
-    _service.getTime().then((value) => setState(() {
-      timeList.addAll(value);
-      convertedTimeList = convertTimeToDouble()!;
+    _service.getAllTemperatureAverages().then((value) => setState(() {
+      averages.addAll(value);
     }));
   }
 
-  List<FlSpot>? _mainGraphSpots() {
+  List<FlSpot>? _averageGraphSpots() {
     List<FlSpot> list = [];
 
-    for (int i = 0; i < data.length - 1; i++) {
-      list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+    for (int i = 0; i < averages.length; i++) {
+      list.add(FlSpot(i.toDouble(), averages[i]));
     }
 
-    return list;
-  }
-
-  List<double>? convertTimeToDouble() {
-    List<double> list = [];
-
-    for(int i = 0; i < timeList.length - 1; i++) {
-      String temp = timeList[i].replaceAll(":", "");
-      double convertedTime = double.parse(temp.substring(0, 2)) + double.parse(temp.substring(2, 4)) / 60;
-      list.add(convertedTime);
-    }
     return list;
   }
 
@@ -59,13 +47,12 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
     updateData();
   }
 
-  LineChartData mainData() {
+  LineChartData avgData() {
     return LineChartData(
-      //min and max values of the chart
         minX: 0,
-        maxX: 24,
-        minY: -10,
-        maxY: 45,
+        maxX: averages.length.toDouble() - 1,
+        minY: 0,
+        maxY: 70,
         gridData: FlGridData(
           //grid
           show: true,
@@ -95,7 +82,7 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
         lineBarsData: [
           // Draws the line
           LineChartBarData(
-              spots: _mainGraphSpots(),
+              spots: _averageGraphSpots(),
               isCurved: true,
               //curves the line
               colors: gradientColors,
@@ -124,7 +111,7 @@ class _HUMLineChartWidgetState extends State<HUMLineChartWidget> {
             return Padding(
               padding: const EdgeInsets.only(
                   right: 18.0, left: 0.0, top: 6, bottom: 12),
-              child: LineChart(mainData()),
+              child: LineChart(avgData()),
             );
           }
         });
