@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/firebase_service.dart';
+import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:flutter_project/widgets/plots/hf_linechart.dart';
 import 'package:flutter_project/widgets/plots/hf_linechart_avg.dart';
 
@@ -11,13 +13,79 @@ class PlotContainerHF extends StatefulWidget {
 
 class _PlotContainerHFState extends State<PlotContainerHF>
     with AutomaticKeepAliveClientMixin {
+  final _service = FirebaseService();
   var showAvg = false;
+  List<String> dates = [];
+  List<String> formattedDates = [];
+  late String chosenDate;
+
+  String initTodaysDate() {
+    var formattedDate = "";
+    if (DateTime.now().day < 10) {
+      if (DateTime.now().month < 10) {
+        formattedDate = "0" +
+            DateTime.now().day.toString() +
+            ".0" +
+            DateTime.now().month.toString() +
+            "." +
+            DateTime.now().year.toString();
+      } else {
+        formattedDate = "0" +
+            DateTime.now().day.toString() +
+            "." +
+            DateTime.now().month.toString() +
+            "." +
+            DateTime.now().year.toString();
+      }
+    } else {
+      if (DateTime.now().month < 10) {
+        formattedDate = DateTime.now().day.toString() +
+            ".0" +
+            DateTime.now().month.toString() +
+            "." +
+            DateTime.now().year.toString();
+      } else {
+        formattedDate = DateTime.now().day.toString() +
+            "." +
+            DateTime.now().month.toString() +
+            "." +
+            DateTime.now().year.toString();
+      }
+    }
+
+    return formattedDate;
+  }
+
+  void formatDate() {
+    for (int i = 0; i < dates.length; i++) {
+      formattedDates.add(dates[i].substring(0, 2) +
+          "." +
+          dates[i].substring(2, 4) +
+          "." +
+          dates[i].substring(4));
+    }
+  }
+
+  Future<void> updateData() async {
+    _service.getAllDates().then((value) => setState(() {
+      dates.addAll(value);
+      chosenDate = initTodaysDate();
+    }));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateData();
+  }
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    formattedDates = [];
+    formatDate();
     super.build(context);
     return Stack(children: <Widget>[
       Column(children: [
@@ -47,6 +115,29 @@ class _PlotContainerHFState extends State<PlotContainerHF>
                 style: Theme.of(context).elevatedButtonTheme.style,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: DropdownButton<String>(
+                value: chosenDate,
+                elevation: 10,
+                underline: Container(
+                  height: 2,
+                  color: ThemeColors.lightTheme.primaryColor,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    chosenDate = newValue!;
+                  });
+                },
+                items: formattedDates
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
       ]),
@@ -61,7 +152,7 @@ class _PlotContainerHFState extends State<PlotContainerHF>
           padding: const EdgeInsets.only(top: 16, bottom: 16),
           child: showAvg
               ? const HFLineChartAvgWidget()
-              : const HFLineChartWidget(),
+              : HFLineChartWidget(chosenDate),
         ),
       ),
     ]);
