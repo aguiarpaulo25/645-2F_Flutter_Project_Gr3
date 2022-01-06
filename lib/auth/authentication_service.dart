@@ -24,9 +24,8 @@ class AuthenticationService {
 
   Future<String> signUp(
       String email, String firstName, String lastName, String password) async {
-    String todaysDate = DateTime.now().day.toString() +
-        DateTime.now().month.toString() +
-        DateTime.now().year.toString();
+    String todaysDate = "";
+    todaysDate = initTodaysDate();
 
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
@@ -43,5 +42,23 @@ class AuthenticationService {
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
+  }
+  String initTodaysDate() {
+    var formattedDate = "";
+    if(DateTime.now().day < 10) {
+      if (DateTime.now().month < 10) {
+        formattedDate = "0" + DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+      } else {
+        formattedDate = "0" + DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+      }
+    } else {
+      if (DateTime.now().month < 10) {
+        formattedDate = DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+      } else {
+        formattedDate = DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+      }
+    }
+
+    return formattedDate;
   }
 }
