@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 
 class HFLineChartWidget extends StatefulWidget {
-  const HFLineChartWidget({Key? key}) : super(key: key);
+  var _date = "";
+
+  HFLineChartWidget(String date, {Key? key}) : super(key: key) {
+    _date = date;
+  }
 
   @override
   _HFLineChartWidgetState createState() => _HFLineChartWidgetState();
@@ -19,11 +23,13 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var newData = [];
   var timeList = [];
   var convertedTimeList = [];
 
   Future<void> updateData() async {
-    _service.getFrequency().then((value) => setState(() {
+    _service.getFrequencyByDate(widget._date).then((value) => setState(() {
+          data = [];
           data.addAll(value);
         }));
 
@@ -36,8 +42,8 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
   List<FlSpot>? _mainGraphSpots() {
     List<FlSpot> list = [];
 
-    for (int i = 0; i < data.length - 1; i++) {
-      list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+    for (int i = 0; i < newData.length - 1; i++) {
+      list.add(FlSpot(convertedTimeList[i], double.parse(newData[i])));
     }
 
     return list;
@@ -117,10 +123,12 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    updateData();
+    newData = data;
     return StreamBuilder<QuerySnapshot>(
         stream: _service.getUserCollection().snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (data.isEmpty) {
+          if (newData.isEmpty) {
             return const LinearProgressIndicator();
           } else {
             return Padding(

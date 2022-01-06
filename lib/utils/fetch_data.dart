@@ -16,9 +16,26 @@ class FetchData {
 
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  final String todaysDate = DateTime.now().day.toString() +
-      DateTime.now().month.toString() +
-      DateTime.now().year.toString();
+  late String todaysDate;
+
+  void initTodaysDate() {
+    var formattedDate = "";
+    if(DateTime.now().day < 10) {
+      if (DateTime.now().month < 10) {
+        formattedDate = "0" + DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+      } else {
+        formattedDate = "0" + DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+      }
+    } else {
+      if (DateTime.now().month < 10) {
+        formattedDate = DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+      } else {
+        formattedDate = DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+      }
+    }
+
+    todaysDate = formattedDate;
+  }
 
   static late Timer _timer;
 
@@ -31,6 +48,7 @@ class FetchData {
 
   Future addData() async {
     List<dynamic> measures;
+    initTodaysDate();
 
     if (!timerStarted) {_timer = Timer.periodic(Duration(seconds: refreshRate.toInt()), (timer) async {
       measures = await fetchShirtMeasures();

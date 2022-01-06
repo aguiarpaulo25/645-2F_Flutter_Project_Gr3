@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 
 class TEMPLineChartWidget extends StatefulWidget {
-  const TEMPLineChartWidget({Key? key}) : super(key: key);
+  var _date = "";
+
+  TEMPLineChartWidget(String date, {Key? key}) : super(key: key) {
+    _date = date;
+  }
 
   @override
   _TEMPLineChartWidgetState createState() => _TEMPLineChartWidgetState();
@@ -18,25 +22,27 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
+  var newData = [];
   var timeList = [];
   var convertedTimeList = [];
 
   Future<void> updateData() async {
-    _service.getTemperature().then((value) => setState(() {
-      data.addAll(value);
-    }));
+    _service.getTemperatureByDate(widget._date).then((value) => setState(() {
+          data = [];
+          data.addAll(value);
+        }));
 
     _service.getTime().then((value) => setState(() {
-      timeList.addAll(value);
-      convertedTimeList = convertTimeToDouble()!;
-    }));
+          timeList.addAll(value);
+          convertedTimeList = convertTimeToDouble()!;
+        }));
   }
 
   List<FlSpot>? _mainGraphSpots() {
     List<FlSpot> list = [];
 
-    for(int i = 0; i < data.length - 1; i++) {
-      list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+    for (int i = 0; i < newData.length - 1; i++) {
+      list.add(FlSpot(convertedTimeList[i], double.parse(newData[i])));
     }
 
     return list;
@@ -45,9 +51,10 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
   List<double>? convertTimeToDouble() {
     List<double> list = [];
 
-    for(int i = 0; i < timeList.length - 1; i++) {
+    for (int i = 0; i < timeList.length - 1; i++) {
       String temp = timeList[i].replaceAll(":", "");
-      double convertedTime = double.parse(temp.substring(0, 2)) + double.parse(temp.substring(2, 4)) / 60;
+      double convertedTime = double.parse(temp.substring(0, 2)) +
+          double.parse(temp.substring(2, 4)) / 60;
       list.add(convertedTime);
     }
     return list;
@@ -61,7 +68,7 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   LineChartData mainData() {
     return LineChartData(
-      //min and max values of the chart
+        //min and max values of the chart
         minX: 0,
         maxX: 24,
         minY: 0,
@@ -115,10 +122,12 @@ class _TEMPLineChartWidgetState extends State<TEMPLineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    updateData();
+    newData = data;
     return StreamBuilder<QuerySnapshot>(
         stream: _service.getUserCollection().snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (data.isEmpty) {
+          if (newData.isEmpty) {
             return const LinearProgressIndicator();
           } else {
             return Padding(
