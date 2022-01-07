@@ -1,3 +1,4 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
@@ -61,30 +62,32 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Create an account"),
+        title: const Text("CreateAccount").tr(),
       ),
       body: Column(
         children: [
           TextField(
             controller: emailController,
-            decoration: const InputDecoration(
-                labelText: "Email", prefixIcon: Icon(Icons.email)),
+            decoration: InputDecoration(
+                labelText: "Email".tr(), prefixIcon: const Icon(Icons.email)),
           ),
           TextField(
             controller: firstNameController,
-            decoration: const InputDecoration(
-                labelText: "First name", prefixIcon: Icon(Icons.perm_identity)),
+            decoration: InputDecoration(
+                labelText: "FirstName".tr(),
+                prefixIcon: const Icon(Icons.perm_identity)),
           ),
           TextField(
             controller: lastNameController,
-            decoration: const InputDecoration(
-                labelText: "Last name", prefixIcon: Icon(Icons.perm_identity)),
+            decoration: InputDecoration(
+                labelText: "LastName".tr(),
+                prefixIcon: const Icon(Icons.perm_identity)),
           ),
           TextField(
               obscureText: _obscureText,
               controller: passwordController,
               decoration: InputDecoration(
-                  labelText: "Password",
+                  labelText: "Password".tr(),
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: InkWell(
                     onTap: _toggle,
@@ -106,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       passwordController.text.trim())
                   .then((value) => showMessage(value));
             },
-            child: const Text("Create"),
+            child: const Text("Create").tr(),
           ),
         ],
       ),

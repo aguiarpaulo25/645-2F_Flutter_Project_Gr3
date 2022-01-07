@@ -7,7 +7,6 @@ import 'package:flutter_project/utils/firebase_service.dart';
 import 'package:http/http.dart' as http;
 
 class FetchData {
-
   CollectionReference userRef = FirebaseService().getUserCollection();
 
   static bool timerStarted = false;
@@ -20,17 +19,29 @@ class FetchData {
 
   void initTodaysDate() {
     var formattedDate = "";
-    if(DateTime.now().day < 10) {
+    if (DateTime.now().day < 10) {
       if (DateTime.now().month < 10) {
-        formattedDate = "0" + DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+        formattedDate = "0" +
+            DateTime.now().day.toString() +
+            "0" +
+            DateTime.now().month.toString() +
+            DateTime.now().year.toString();
       } else {
-        formattedDate = "0" + DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+        formattedDate = "0" +
+            DateTime.now().day.toString() +
+            DateTime.now().month.toString() +
+            DateTime.now().year.toString();
       }
     } else {
       if (DateTime.now().month < 10) {
-        formattedDate = DateTime.now().day.toString() + "0" + DateTime.now().month.toString() + DateTime.now().year.toString();
+        formattedDate = DateTime.now().day.toString() +
+            "0" +
+            DateTime.now().month.toString() +
+            DateTime.now().year.toString();
       } else {
-        formattedDate = DateTime.now().day.toString() + DateTime.now().month.toString() + DateTime.now().year.toString();
+        formattedDate = DateTime.now().day.toString() +
+            DateTime.now().month.toString() +
+            DateTime.now().year.toString();
       }
     }
 
@@ -50,22 +61,34 @@ class FetchData {
     List<dynamic> measures;
     initTodaysDate();
 
-    if (!timerStarted) {_timer = Timer.periodic(Duration(seconds: refreshRate.toInt()), (timer) async {
-      measures = await fetchShirtMeasures();
-      timerStarted = true;
-      var allData;
-      try {
-        allData = (await FirebaseService().getAll().timeout(const Duration(seconds : 1)));
-        allData.add({"time": measures[0], "temperature": measures[3], "humidity": measures[2], "frequency": measures[1]});
+    if (!timerStarted) {
+      _timer =
+          Timer.periodic(Duration(seconds: refreshRate.toInt()), (timer) async {
+        measures = await fetchShirtMeasures();
+        timerStarted = true;
+        var allData;
+        try {
+          allData = (await FirebaseService()
+              .getAll()
+              .timeout(const Duration(seconds: 1)));
+          allData.add({
+            "time": measures[0],
+            "temperature": measures[3],
+            "humidity": measures[2],
+            "frequency": measures[1]
+          });
+        } on TimeoutException catch (error) {
+          debugPrintStack();
+          allData = List.empty();
+        }
 
-      } on TimeoutException catch (error) {
-        debugPrintStack();
-        allData = List.empty();
-      }
-
-      userRef.doc(userId).collection("days").doc(todaysDate).set({"data": FieldValue.arrayUnion(allData)}
-      );
-    });}
+        userRef
+            .doc(userId)
+            .collection("days")
+            .doc(todaysDate)
+            .set({"data": FieldValue.arrayUnion(allData)});
+      });
+    }
   }
 
   Future<List<String>> fetchShirtMeasures() async {
@@ -74,7 +97,7 @@ class FetchData {
     try {
       // TODO : Replace here by real ip 192.168.4.2
       final response =
-      await http.get(Uri.parse('https://www.danielabgottspon.ch/'));
+          await http.get(Uri.parse('https://www.danielabgottspon.ch/'));
 
       if (response.statusCode == 200) {
         _measures = response.body.split(" ");
@@ -85,6 +108,4 @@ class FetchData {
 
     return _measures;
   }
-
-
 }

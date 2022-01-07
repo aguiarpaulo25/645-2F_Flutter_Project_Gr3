@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_project/pages/menu/navdrawer.dart';
@@ -20,41 +21,34 @@ class _CurrentInfoState extends State<CurrentInfo> {
 
   void updateData() {
     _service.getLastestFrequency().then((value) => {
-      setState(() {
-        try {
-          frequency = value;
-        }
-        catch (e)
-        {
-          debugPrint("Fetching frequency failed");
-        }
-
-      })
-    });
+          setState(() {
+            try {
+              frequency = value;
+            } catch (e) {
+              debugPrint("Fetching frequency failed");
+            }
+          })
+        });
 
     _service.getLastestTemperature().then((value) => {
-      setState(() {
-        try {
-          temperature = value;
-        }
-        catch (e)
-        {
-          debugPrint("Fetching temperature failed");
-        }
-      })
-    });
+          setState(() {
+            try {
+              temperature = value;
+            } catch (e) {
+              debugPrint("Fetching temperature failed");
+            }
+          })
+        });
 
     _service.getLastestHumidity().then((value) => {
-      setState(() {
-        try {
-          humidity = value;
-        }
-        catch (e)
-        {
-          debugPrint("Fetching humidity failed");
-        }
-      })
-    });
+          setState(() {
+            try {
+              humidity = value;
+            } catch (e) {
+              debugPrint("Fetching humidity failed");
+            }
+          })
+        });
   }
 
   @override
@@ -69,15 +63,16 @@ class _CurrentInfoState extends State<CurrentInfo> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Connected t-shirt"),
+        title: const Text("ConnectedTshirt").tr(),
       ),
       body: Column(children: [
         const Padding(padding: EdgeInsets.only(top: 10.0)),
-        Text("Hello User, here is your current info",
-            style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 20.0,
-                color: Theme.of(context).primaryColorDark)),
+        Text("CurrentInfoText",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20.0,
+                    color: Theme.of(context).primaryColorDark))
+            .tr(),
         Expanded(
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseService().getUserCollection().snapshots(),
@@ -87,24 +82,19 @@ class _CurrentInfoState extends State<CurrentInfo> {
 
                   return ListView(itemExtent: 190.0, children: <Widget>[
                     CurrentInfoCard(
-                        cardTitle: 'Heart Frequency',
+                        cardTitle: 'HeartFrequency'.tr(),
                         cardIcon: Icons.favorite_border_outlined,
-                        connectionToDb: frequency.toString() +
-                            " Hz",
+                        connectionToDb: frequency.toString() + " Hz",
                         cardColor: Theme.of(context).primaryColorLight),
-
                     CurrentInfoCard(
-                        cardTitle: 'Temperature',
-                        cardIcon:Icons.thermostat_outlined,
-                        connectionToDb: temperature.toString() +
-                            " °C",
+                        cardTitle: 'Temperature'.tr(),
+                        cardIcon: Icons.thermostat_outlined,
+                        connectionToDb: temperature.toString() + " °C",
                         cardColor: Theme.of(context).cardColor),
-
                     CurrentInfoCard(
-                        cardTitle: 'Humidity',
-                        cardIcon:Icons.opacity_outlined,
-                        connectionToDb: humidity.toString() +
-                            " %",
+                        cardTitle: 'Humidity'.tr(),
+                        cardIcon: Icons.opacity_outlined,
+                        connectionToDb: humidity.toString() + " %",
                         cardColor: Theme.of(context).secondaryHeaderColor),
                   ]);
                 }))

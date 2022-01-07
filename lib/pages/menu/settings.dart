@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/fetch_data.dart';
 import 'package:flutter_project/utils/theme_colors.dart';
@@ -42,12 +41,13 @@ class _SettingsState extends State<Settings> {
       ),
       body: Column(
         children: <Widget>[
-          const ListTile(
-            title: Text("Choose your preferences",
-                style: TextStyle(fontWeight: FontWeight.bold)),
+          ListTile(
+            title: const Text("SettingsText",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                .tr(),
           ),
           SwitchListTile(
-            title: const Text("Dark mode"),
+            title: const Text("DarkMode").tr(),
             value: theme.isDarkMode,
             onChanged: (value) {
               final provider =
@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
               provider.toggleMode(value);
             },
           ),
-          const ListTile(title: Text("Refreshrate")),
+          ListTile(title: const Text("RefreshRate").tr()),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: refreshValueList.map((e) => Text(e.toString())).toList(),
@@ -73,9 +73,9 @@ class _SettingsState extends State<Settings> {
               }),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: ListTile(
-                  title: Text("Language"),
+                  title: const Text("Language").tr(),
                 ),
               ),
               Padding(

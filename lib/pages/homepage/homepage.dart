@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/menu/navdrawer.dart';
 import 'package:flutter_project/pages/homepage/current_info.dart';
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int currentIndex = 0;
   final screens = [
     const CurrentInfo(),
@@ -34,13 +34,12 @@ class _HomePageState extends State<HomePage> {
           showUnselectedLabels: false,
           currentIndex: currentIndex,
           onTap: (index) => setState(() => currentIndex = index),
-          items: const [
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outlined),
-                label: 'Current info'),
+                icon: const Icon(Icons.person_outlined),
+                label: "CurrentInfo".tr()),
             BottomNavigationBarItem(
-                icon: Icon(Icons.insights_outlined),
-                label: 'Plots')
+                icon: const Icon(Icons.insights_outlined), label: "Plots".tr())
           ]),
     );
   }

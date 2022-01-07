@@ -23,12 +23,12 @@ class _TEMPLineChartAvgWidgetState extends State<TEMPLineChartAvgWidget> {
 
   Future<void> updateData() async {
     _service.getTemperature().then((value) => setState(() {
-      data.addAll(value);
-    }));
+          data.addAll(value);
+        }));
 
     _service.getAllTemperatureAverages().then((value) => setState(() {
-      averages.addAll(value);
-    }));
+          averages.addAll(value);
+        }));
   }
 
   List<FlSpot>? _averageGraphSpots() {
