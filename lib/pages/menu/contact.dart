@@ -44,31 +44,31 @@ class _ContactState extends State<Contact> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Contact"),
+        title: const Text("Contact").tr(),
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
-              tr("ContactText"),
-              style: const TextStyle(fontSize: 22),
+              "ContactText".tr(),
+              style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),
           TextField(
             controller: subjectController,
-            decoration: const InputDecoration(
-              labelText: "Subject",
-              prefixIcon: Icon(Icons.assignment_outlined),
+            decoration: InputDecoration(
+              labelText: "Subject".tr(),
+              prefixIcon: const Icon(Icons.assignment_outlined),
             ),
           ),
           TextField(
             controller: messageController,
-            maxLines: 6,
-            decoration: const InputDecoration(
-              labelText: "Message",
-              prefixIcon: Icon(Icons.article),
+            maxLines: 5,
+            decoration: InputDecoration(
+              labelText: "Message".tr(),
+              prefixIcon: const Icon(Icons.article),
             ),
           ),
           Padding(
@@ -81,7 +81,7 @@ class _ContactState extends State<Contact> {
                   message: messageController.text,
                 );
               },
-              child: const Text("SEND"),
+              child: const Text("Send").tr(),
               style: Theme.of(context).elevatedButtonTheme.style,
             ),
           ),
@@ -101,9 +101,9 @@ class _ContactState extends State<Contact> {
 
     final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
     if (subject.isEmpty) {
-      showMessage("ERROR", "Le sujet est vide");
+      showMessage("ContactError".tr(), "ContactEmptySubject".tr());
     } else if (message.isEmpty) {
-      showMessage("ERROR", "Le message est vide");
+      showMessage("ContactError".tr(), "ContactEmptyMessage".tr());
     } else {
       final response = await http.post(url,
           headers: {
@@ -123,10 +123,9 @@ class _ContactState extends State<Contact> {
       subjectController.clear();
       messageController.clear();
       if (response.body != "OK") {
-        showMessage("ERROR", "L'envoi a échoué");
+        showMessage("ContactError".tr(), "ContactSendError".tr());
       } else {
-        showMessage("SUCCESS",
-            "Nous vous remercions pour votre message, nous vous répondrons dans les plus brefs délais !");
+        showMessage("ContactSuccess".tr(), "ContactSendSuccess".tr());
       }
     }
   }

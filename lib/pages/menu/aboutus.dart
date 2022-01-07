@@ -18,7 +18,7 @@ class AboutUs extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Text(
               tr("AboutUsText"),
-              style: const TextStyle(fontSize: 22),
+              style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),
@@ -30,7 +30,7 @@ class AboutUs extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Text(
               ("© Copyright 2022 - HES-SO"),
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),

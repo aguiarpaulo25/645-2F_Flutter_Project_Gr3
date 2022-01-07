@@ -23,12 +23,12 @@ class _HUMLineChartAvgWidgetState extends State<HUMLineChartAvgWidget> {
 
   Future<void> updateData() async {
     _service.getHumidity().then((value) => setState(() {
-      data.addAll(value);
-    }));
+          data.addAll(value);
+        }));
 
     _service.getAllHumidityAverages().then((value) => setState(() {
-      averages.addAll(value);
-    }));
+          averages.addAll(value);
+        }));
   }
 
   List<FlSpot>? _averageGraphSpots() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_project/utils/firebase_service.dart';
 import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:flutter_project/widgets/plots/hf_linechart.dart';
@@ -68,9 +69,9 @@ class _PlotContainerHFState extends State<PlotContainerHF>
 
   Future<void> updateData() async {
     _service.getAllDates().then((value) => setState(() {
-      dates.addAll(value);
-      chosenDate = initTodaysDate();
-    }));
+          dates.addAll(value);
+          chosenDate = initTodaysDate();
+        }));
   }
 
   @override
@@ -93,7 +94,7 @@ class _PlotContainerHFState extends State<PlotContainerHF>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              showAvg ? 'Average of all data' : 'Today\'s data',
+              showAvg ? "AverageAllData".tr() : "TodayData".tr(),
               textAlign: TextAlign.center,
             ),
           ],
@@ -110,8 +111,8 @@ class _PlotContainerHFState extends State<PlotContainerHF>
                   });
                 },
                 child: showAvg
-                    ? const Text("Current data")
-                    : const Text("Average"),
+                    ? const Text("CurrentData").tr()
+                    : const Text("Average").tr(),
                 style: Theme.of(context).elevatedButtonTheme.style,
               ),
             ),

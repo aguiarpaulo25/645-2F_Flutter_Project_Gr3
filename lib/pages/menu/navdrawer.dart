@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/menu/aboutus.dart';
 import 'package:flutter_project/pages/menu/settings.dart';
@@ -32,22 +33,22 @@ class NavDrawer extends StatelessWidget {
           ListTile(
               leading: Icon(Icons.home,
                   color: Theme.of(context).primaryIconTheme.color),
-              title: const Text('Home'),
+              title: const Text('Home').tr(),
               onTap: () => selectedItem(context, 0)),
           ListTile(
               leading: Icon(Icons.settings,
                   color: Theme.of(context).primaryIconTheme.color),
-              title: const Text('Settings'),
+              title: const Text('Settings').tr(),
               onTap: () => selectedItem(context, 1)),
           ListTile(
               leading: Icon(Icons.info,
                   color: Theme.of(context).primaryIconTheme.color),
-              title: const Text('About us'),
+              title: const Text('AboutUs').tr(),
               onTap: () => selectedItem(context, 2)),
           ListTile(
               leading: Icon(Icons.email,
                   color: Theme.of(context).primaryIconTheme.color),
-              title: const Text('Contact'),
+              title: const Text('Contact').tr(),
               onTap: () => selectedItem(context, 3)),
           Expanded(
             child: Align(
@@ -55,7 +56,7 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                   leading: Icon(Icons.logout,
                       color: Theme.of(context).primaryIconTheme.color),
-                  title: const Text('Log out'),
+                  title: const Text('LogOut').tr(),
                   onTap: () => selectedItem(context, 4)),
             ),
           )

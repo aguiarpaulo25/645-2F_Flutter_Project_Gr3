@@ -1,7 +1,6 @@
-import 'package:easy_localization/src/public_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/connection/signup_page.dart';
-import 'package:flutter_project/utils/theme_colors.dart';
 import 'package:provider/src/provider.dart';
 
 import '../../auth/authentication_service.dart';
@@ -62,16 +61,16 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           TextField(
             controller: emailController,
-            decoration: const InputDecoration(
-              labelText: "Email",
-              prefixIcon: Icon(Icons.email),
+            decoration: InputDecoration(
+              labelText: "Email".tr(),
+              prefixIcon: const Icon(Icons.email),
             ),
           ),
           TextField(
               obscureText: _obscureText,
               controller: passwordController,
               decoration: InputDecoration(
-                  labelText: "Password",
+                  labelText: "Password".tr(),
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: InkWell(
                     onTap: _toggle,
@@ -90,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
                       passwordController.text.trim())
                   .then((value) => showMessage(value));
             },
-            child: const Text("Sign in"),
+            child: const Text("SignIn").tr(),
             style: Theme.of(context).elevatedButtonTheme.style,
           ),
           Padding(
@@ -98,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Don't have an account ? "),
+                const Text("NoAccount").tr(),
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -106,10 +105,11 @@ class _SignInPageState extends State<SignInPage> {
                       MaterialPageRoute(builder: (context) => SignUpPage()),
                     );
                   },
-                  child: const Text('Register',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline)),
+                  child: const Text("Register",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline))
+                      .tr(),
                 ),
               ],
             ),
