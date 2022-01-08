@@ -36,7 +36,9 @@ class AuthenticationService {
       FirebaseAuth auth = FirebaseAuth.instance;
       String uid = auth.currentUser!.uid.toString();
       users.doc(uid).collection("days").doc(todaysDate).set({
-        "data": [],
+        "data": [
+          {"frequency": "", "humidity": "", "temperature": "", "time": ""}
+        ],
       });
       return 'Registered';
     } on FirebaseAuthException catch (e) {

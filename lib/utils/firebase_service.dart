@@ -83,7 +83,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["frequency"]);
+            if (element["frequency"] != "") {
+              data.add(element["frequency"]);
+            }
           }
         }
       }
@@ -104,7 +106,9 @@ class FirebaseService {
         if (doc.id == newDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["frequency"]);
+            if (element["frequency"] != "") {
+              data.add(element["frequency"]);
+            }
           }
         }
       }
@@ -125,7 +129,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["temperature"]);
+            if (element["temperature"] != "") {
+              data.add(element["temperature"]);
+            }
           }
         }
       }
@@ -146,7 +152,9 @@ class FirebaseService {
         if (doc.id == newDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["temperature"]);
+            if (element["temperature"] != "") {
+              data.add(element["temperature"]);
+            }
           }
         }
       }
@@ -167,7 +175,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["humidity"]);
+            if (element["humidity"] != "") {
+              data.add(element["humidity"]);
+            }
           }
         }
       }
@@ -188,7 +198,9 @@ class FirebaseService {
         if (doc.id == newDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["humidity"]);
+            if (element["humidity"] != "") {
+              data.add(element["humidity"]);
+            }
           }
         }
       }
@@ -209,7 +221,32 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element["time"]);
+            if (element["time"] != "") {
+              data.add(element["time"]);
+            }
+          }
+        }
+      }
+    });
+
+    return data;
+  }
+
+  Future<List<dynamic>> getTimeByDate(String date) async {
+    var newDate = date.replaceAll(".", "");
+    var data = [];
+    await _usercollection
+        .doc(userId)
+        .collection("days")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      for (var doc in snapshot.docs) {
+        if (doc.id == newDate) {
+          List list = doc["data"] as List;
+          for (var element in list) {
+            if (element["time"] != "") {
+              data.add(element["time"]);
+            }
           }
         }
       }
@@ -230,7 +267,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element['frequency']);
+            if (element["frequency"] != "") {
+              data.add(element["frequency"]);
+            }
           }
         }
       }
@@ -255,7 +294,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element['temperature']);
+            if (element["temperature"] != "") {
+              data.add(element['temperature']);
+            }
           }
         }
       }
@@ -279,7 +320,9 @@ class FirebaseService {
         if (doc.id == todaysDate) {
           List list = doc["data"] as List;
           for (var element in list) {
-            data.add(element['humidity']);
+            if (element["humidity"] != "") {
+              data.add(element['humidity']);
+            }
           }
         }
       }
@@ -304,7 +347,9 @@ class FirebaseService {
         List list = doc["data"] as List;
         result = 0.0;
         for (var element in list) {
-          result += double.parse(element["frequency"]);
+          if (element["frequency"] != "") {
+            result += double.parse(element["frequency"]);
+          }
         }
         result /= list.length - 1;
         averages.add(result);
@@ -327,7 +372,9 @@ class FirebaseService {
         List list = doc["data"] as List;
         result = 0.0;
         for (var element in list) {
-          result += double.parse(element["temperature"]);
+          if (element["temperature"] != "") {
+            result += double.parse(element["temperature"]);
+          }
         }
         result /= list.length - 1;
         averages.add(result);
@@ -350,7 +397,9 @@ class FirebaseService {
         List list = doc["data"] as List;
         result = 0.0;
         for (var element in list) {
-          result += double.parse(element["humidity"]);
+          if (element["humidity"] != "") {
+            result += double.parse(element["humidity"]);
+          }
         }
         result /= list.length - 1;
         averages.add(result);

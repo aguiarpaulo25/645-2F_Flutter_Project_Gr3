@@ -13,8 +13,6 @@ class FetchData {
 
   static double refreshRate = 10;
 
-  final String userId = FirebaseAuth.instance.currentUser!.uid;
-
   late String todaysDate;
 
   void initTodaysDate() {
@@ -66,8 +64,11 @@ class FetchData {
           Timer.periodic(Duration(seconds: refreshRate.toInt()), (timer) async {
         measures = await fetchShirtMeasures();
         timerStarted = true;
+        var userId = "";
+
         var allData;
         try {
+          userId = FirebaseAuth.instance.currentUser!.uid;
           allData = (await FirebaseService()
               .getAll()
               .timeout(const Duration(seconds: 1)));
