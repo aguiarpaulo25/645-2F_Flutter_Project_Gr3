@@ -23,27 +23,29 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
 
   final FirebaseService _service = FirebaseService();
   var data = [];
-  var newData = [];
   var timeList = [];
   var convertedTimeList = [];
 
   Future<void> updateData() async {
+    _service.getTimeByDate(widget._date).then((value) => setState(() {
+          timeList = [];
+          timeList.addAll(value);
+          convertedTimeList = convertTimeToDouble()!;
+        }));
+
     _service.getFrequencyByDate(widget._date).then((value) => setState(() {
           data = [];
           data.addAll(value);
-        }));
-
-    _service.getTime().then((value) => setState(() {
-          timeList.addAll(value);
-          convertedTimeList = convertTimeToDouble()!;
         }));
   }
 
   List<FlSpot>? _mainGraphSpots() {
     List<FlSpot> list = [];
 
-    for (int i = 0; i < newData.length - 1; i++) {
-      list.add(FlSpot(convertedTimeList[i], double.parse(newData[i])));
+    if (data.isNotEmpty) {
+      for (int i = 0; i < data.length - 1; i++) {
+        list.add(FlSpot(convertedTimeList[i], double.parse(data[i])));
+      }
     }
 
     return list;
@@ -52,12 +54,15 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
   List<double>? convertTimeToDouble() {
     List<double> list = [];
 
-    for (int i = 0; i < timeList.length; i++) {
-      String temp = timeList[i].replaceAll(":", "");
-      double convertedTime = double.parse(temp.substring(0, 2)) +
-          double.parse(temp.substring(2, 4)) / 60;
-      list.add(convertedTime);
+    if (timeList.isNotEmpty) {
+      for (int i = 0; i < timeList.length; i++) {
+        String temp = timeList[i].replaceAll(":", "");
+        double convertedTime = double.parse(temp.substring(0, 2)) +
+            double.parse(temp.substring(2, 4)) / 60;
+        list.add(convertedTime);
+      }
     }
+
     return list;
   }
 
@@ -124,11 +129,10 @@ class _HFLineChartWidgetState extends State<HFLineChartWidget> {
   @override
   Widget build(BuildContext context) {
     updateData();
-    newData = data;
     return StreamBuilder<QuerySnapshot>(
         stream: _service.getUserCollection().snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (newData.isEmpty) {
+          if (data.isEmpty) {
             return const LinearProgressIndicator();
           } else {
             return Padding(

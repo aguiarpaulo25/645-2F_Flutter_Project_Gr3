@@ -18,16 +18,12 @@ class _HFLineChartAvgWidgetState extends State<HFLineChartAvgWidget> {
   ];
 
   final FirebaseService _service = FirebaseService();
-  var data = [];
   var showAvg = false;
   var averages = [];
 
   Future<void> updateData() async {
-    _service.getFrequency().then((value) => setState(() {
-          data.addAll(value);
-        }));
-
     _service.getAllFrequencyAverages().then((value) => setState(() {
+          averages = [];
           averages.addAll(value);
         }));
   }
@@ -37,6 +33,10 @@ class _HFLineChartAvgWidgetState extends State<HFLineChartAvgWidget> {
 
     for (int i = 0; i < averages.length; i++) {
       list.add(FlSpot(i.toDouble(), averages[i]));
+    }
+
+    if (averages.length == 1) {
+      list.add(FlSpot(1.0, averages[0]));
     }
 
     return list;
@@ -51,7 +51,9 @@ class _HFLineChartAvgWidgetState extends State<HFLineChartAvgWidget> {
   LineChartData avgData() {
     return LineChartData(
         minX: 0,
-        maxX: averages.length.toDouble() - 1,
+        maxX: averages.length == 1
+            ? averages.length.toDouble()
+            : averages.length.toDouble() - 1,
         minY: 0,
         maxY: 200,
         gridData: FlGridData(
@@ -103,10 +105,11 @@ class _HFLineChartAvgWidgetState extends State<HFLineChartAvgWidget> {
 
   @override
   Widget build(BuildContext context) {
+    updateData();
     return StreamBuilder<QuerySnapshot>(
         stream: _service.getUserCollection().snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (data.isEmpty) {
+          if (averages.isEmpty) {
             return const LinearProgressIndicator();
           } else {
             return Padding(

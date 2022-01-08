@@ -18,7 +18,7 @@ class _PlotContainerHUMState extends State<PlotContainerHUM>
   var showAvg = false;
   List<String> dates = [];
   List<String> formattedDates = [];
-  late String chosenDate;
+  String chosenDate = "";
 
   String initTodaysDate() {
     var formattedDate = "";
@@ -69,8 +69,8 @@ class _PlotContainerHUMState extends State<PlotContainerHUM>
 
   Future<void> updateData() async {
     _service.getAllDates().then((value) => setState(() {
+          dates = [];
           dates.addAll(value);
-          chosenDate = initTodaysDate();
         }));
   }
 
@@ -85,6 +85,10 @@ class _PlotContainerHUMState extends State<PlotContainerHUM>
 
   @override
   Widget build(BuildContext context) {
+    if (chosenDate == "") {
+      chosenDate = initTodaysDate();
+    }
+    updateData();
     formattedDates = [];
     formatDate();
     super.build(context);
