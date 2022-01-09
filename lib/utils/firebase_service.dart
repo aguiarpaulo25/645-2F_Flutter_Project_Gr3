@@ -418,7 +418,9 @@ class FirebaseService {
         .get()
         .then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        dates.add(doc.id);
+        if(doc.id != todaysDate) {
+          dates.add(doc.id);
+        }
       }
     });
 
