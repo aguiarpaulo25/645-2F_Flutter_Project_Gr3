@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/auth/authentification_wrapper.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -10,7 +11,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-
   final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
@@ -30,7 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Color(0xFF02f0f0),
+        color: isActive ? Colors.white : const Color(0xFF02f0f0),
         borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -63,15 +63,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Container(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: () => Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => const AuthenticationWrapper())),
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AuthenticationWrapper())),
                       child: const Text(
                         'Skip',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0
-                        ),
-                      ),
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ).tr(),
                     ),
                   ),
                   Container(
@@ -85,11 +84,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         });
                       },
                       children: [
-                        Padding(padding: const EdgeInsets.all(40.0),
+                        Padding(
+                            padding: const EdgeInsets.all(40.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Center(
+                              children: [
+                                const Center(
                                   child: Image(
                                     image: AssetImage(
                                       'assets/tshirt.png',
@@ -98,31 +98,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     width: 300.0,
                                   ),
                                 ),
-                                SizedBox(height: 30.0,),
-                                Text(
-                                  'Connect to your T-shirt',
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                const Text(
+                                  'ConnectTshirtTitle',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 28.0,
                                   ),
+                                ).tr(),
+                                const SizedBox(
+                                  height: 15.0,
                                 ),
-                                SizedBox(height: 15.0,),
-                                Text(
-                                  'With your phone, connect to your Connected T-shirt, and retrieve the current data from it.',
+                                const Text(
+                                  'ConnectTshirtText',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0
-                                  ),
-                                )
+                                      color: Colors.white, fontSize: 16.0),
+                                ).tr()
                               ],
-                            )
-                        ),
-                        Padding(padding: const EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 0.0),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                40.0, 40.0, 40.0, 0.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Center(
+                              children: [
+                                const Center(
                                   child: Image(
                                     image: AssetImage(
                                       'assets/current_data.png',
@@ -131,31 +134,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     width: 300.0,
                                   ),
                                 ),
-                                SizedBox(height: 30.0,),
-                                Text(
-                                  'Get your current data',
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                const Text(
+                                  'CurrentDataTitle',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 28.0,
                                   ),
+                                ).tr(),
+                                const SizedBox(
+                                  height: 15.0,
                                 ),
-                                SizedBox(height: 15.0,),
-                                Text(
-                                  'With this app, you will be able to retrieve the current data of your heart frequency, temperature as well as humidity live and display it on your screen.',
+                                const Text(
+                                  'CurrentDataText',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0
-                                  ),
-                                )
+                                      color: Colors.white, fontSize: 16.0),
+                                ).tr()
                               ],
-                            )
-                        ),
-                        Padding(padding: const EdgeInsets.all(40.0),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.all(40.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Center(
+                              children: [
+                                const Center(
                                   child: Image(
                                     image: AssetImage(
                                       'assets/compare.png',
@@ -164,26 +169,27 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     width: 300.0,
                                   ),
                                 ),
-                                SizedBox(height: 30.0,),
-                                Text(
-                                  'Compare your data and find more information',
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                const Text(
+                                  'CompareDataTitle',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 28.0,
                                   ),
+                                ).tr(),
+                                const SizedBox(
+                                  height: 15.0,
                                 ),
-                                SizedBox(height: 15.0,),
-                                Text(
-                                  'With the help of graphs, compare all the data from previous dates, and keep track of your numbers.',
+                                const Text(
+                                  'CompareDataText',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0
-                                  ),
-                                )
+                                      color: Colors.white, fontSize: 16.0),
+                                ).tr()
                               ],
-                            )
-                        ),
+                            )),
                       ],
                     ),
                   ),
@@ -191,75 +197,78 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
                   ),
-                  _currentPage != _numPages -1
+                  _currentPage != _numPages - 1
                       ? Expanded(
-                    child: Align(
-                      alignment: FractionalOffset.bottomRight,
-                      child: FlatButton(
-                        onPressed: () {
-                          _pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
+                          child: Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: FlatButton(
+                              onPressed: () {
+                                _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.ease,
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'Next',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22.0,
+                                    ),
+                                  ).tr(),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 30.0,
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: 10.0,),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+                          ),
+                        )
                       : Expanded(
-                    child: Align(
-                      alignment: FractionalOffset.bottomRight,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => const AuthenticationWrapper()));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Start',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
+                          child: Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AuthenticationWrapper()));
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'Start',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22.0,
+                                    ),
+                                  ).tr(),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 30.0,
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: 10.0,),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+                          ),
+                        )
                 ],
-              )
-          ),
+              )),
         ),
       ),
-
     );
   }
 }
