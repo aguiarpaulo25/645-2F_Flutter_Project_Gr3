@@ -19,6 +19,7 @@ class _PlotContainerHUMState extends State<PlotContainerHUM>
   List<String> dates = [];
   List<String> formattedDates = [];
   String chosenDate = "";
+  String today = "";
 
   String initTodaysDate() {
     var formattedDate = "";
@@ -70,7 +71,9 @@ class _PlotContainerHUMState extends State<PlotContainerHUM>
   Future<void> updateData() async {
     _service.getAllDates().then((value) => setState(() {
           dates = [];
+          today = initTodaysDate().replaceAll(".", "");
           dates.addAll(value);
+          dates.add(today);
         }));
   }
 
