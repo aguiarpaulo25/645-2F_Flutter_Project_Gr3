@@ -1,5 +1,6 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/pages/welcomeScreens/welcome_screens.dart';
 import 'package:provider/src/provider.dart';
 
 import '../../auth/authentication_service.dart';
@@ -47,7 +48,8 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     } else {
-      Navigator.pop(context);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const WelcomeScreen()));
     }
   }
 
