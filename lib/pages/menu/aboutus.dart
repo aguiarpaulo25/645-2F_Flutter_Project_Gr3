@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 class AboutUs extends StatelessWidget {
@@ -17,7 +16,7 @@ class AboutUs extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: Text(
-              tr("AboutUsText"),
+              "AboutUsText".tr(),
               style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
