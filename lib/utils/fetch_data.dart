@@ -93,20 +93,17 @@ class FetchData {
   }
 
   Future<List<String>> fetchShirtMeasures() async {
-    List<String> _measures = [];
+    List<String> _data = [];
 
     try {
-      // TODO : Replace here by real ip 192.168.4.2
-      final response =
-          await http.get(Uri.parse('https://www.danielabgottspon.ch/'));
-
+      final response = await http.get(Uri.parse('https://www.danielabgottspon.ch/'));
       if (response.statusCode == 200) {
-        _measures = response.body.split(" ");
+        _data = response.body.split(" ");
       }
     } on SocketException {
-      debugPrint("Ex");
+      debugPrint("Could not load data");
     }
 
-    return _measures;
+    return _data;
   }
 }
