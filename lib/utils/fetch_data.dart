@@ -95,8 +95,11 @@ class FetchData {
   Future<List<String>> fetchShirtMeasures() async {
     List<String> _data = [];
 
+    //https://www.danielabgottspon.ch/
+    //http://192.168.4.2
+
     try {
-      final response = await http.get(Uri.parse('https://www.danielabgottspon.ch/'));
+      final response = await http.get(Uri.parse('http://192.168.4.2'));
       if (response.statusCode == 200) {
         _data = response.body.split(" ");
       }
